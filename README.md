@@ -23,27 +23,25 @@ Toimintoja:
 Kantakuvaus:
 ------------
 
-Yksinkertainen kuvaus kannasta sekä yuml.me-palveluun sopiva lähdekoodi sille
-
 Kokoelma:
-* artisti:artist
+* artisti:Artist
 * artistin_alias:Alias
 * nimi:String
 * tiedoston_nimi:String
 * Kokoelma:Blob
 * ryhma:Ryhma
-* julkaisuVuosi:int
+* julkaisuvuosi:int
 * lisaaja:Kayttaja
 * lisatty:DateTime
 * julkinen:Boolean
 
 Artisti:
  * nimi:String
+ * ensisijainen_ryhma:Ryhma
+ * lisattu:DateTime
+ * ryhmat:Ryhma*
  * alias:Alias*
  * kokoelmat:Kokoelma*
- * ensisijainen_ryhma:Ryhma
- * ryhmat:Ryhma*
- * lisattu:DateTime
 
 Ryhma:
  * nimi:String
@@ -64,7 +62,7 @@ Alias:
  * alias:String
  * Artisti
 
-Viestit:
+Viesti:
  * lahettaja:Kayttaja
  * vastaanottaja:Kayttaja
  * paivamaara:DateTime
@@ -72,6 +70,16 @@ Viestit:
  * lahettajan_poistama:Boolean
  * vastaanottajana_poistama:Boolean
 
+Piste:
+ * pisteyttaja:Kayttaja
+ * kokoelma:Kokoelma
+ * pisteet:int
+ * annettu:DateTime
+
+Kommentti:
+ * kommentoija:Kayttaja
+ * kommentti:String
+ * luotu
 
 Kaavio [yuml.me](http://yuml.me) lähdekoodina:
 ----------------------------
@@ -80,22 +88,25 @@ Kaavio [yuml.me](http://yuml.me) lähdekoodina:
 
 [Artisti|nimi:String;aliakset:Alias*;kokoelmat:Kokoelma*;ensisijainen_ryhma:Ryhma;ryhmat:Ryhma;lisatty:DateTime]
 
-[Jasenyydet|ryhma:Ryhma;artisti:Artisti]
+[Jasenyys|ryhma:Ryhma;artisti:Artisti]
 
 [Viesti|lahettaja:Kayttaja;vastaanottaja:Kayttaja;paivamaara:DateTime;luettu:Boolean;lahettajan_poistama:Boolean;vastaanottajan_poistama:Boolean]
 
 [Kayttaja|tunnus:String;sahkoposti:String;luotu:DateTime;sahkoposti:String;salasana:String;oikeustaso:int]
 
-
 [Alias|alias:string;artisti:Artisti]
+
+[Kommentti|kommentoija:Kayttaja;kommentti:String;luotu:DateTime]
+
+[Piste|pisteyttaja:Kayttaja;kokoelma:Kokoelma;pisteet:int;annettu:DateTime]
 
 [Artisti]1-1..*[Alias]
 [Kokoelma]1-1>[Artisti]
 [Kokoelma]*-1>[Kayttaja]
-
-
-[Artisti]++-0..*>[Jasenyydet]
-
+[Kokoelma]1-*>[Piste]
+[Kokoelma]1-*>[Kommentti]
+[Artisti]++-0..*>[Jasenyys]
 [Viesti]2-0..*[Kayttaja]
+
 ```
 
