@@ -28,7 +28,7 @@ Yksinkertainen kuvaus kannasta sekä yuml.me-palveluun sopiva lähdekoodi sille
 Kokoelma:
 * artisti:artist
 * artistin_alias:Alias
-* nimi
+* nimi:String
 * tiedoston_nimi:String
 * Kokoelma:Blob
 * ryhma:Ryhma
@@ -56,13 +56,13 @@ Kayttaja:
  * salasana-hash:String
  * oikeustaso:int
 
-Jasenyydet:
+Jasenyys:
  * ryhma:Ryhma
  * artisti:Artisti
 
-Aliakset:
+Alias:
+ * alias:String
  * Artisti
- * Alias
 
 Viestit:
  * lahettaja:Kayttaja
@@ -73,8 +73,9 @@ Viestit:
  * vastaanottajana_poistama:Boolean
 
 
-Kaavio yuml.me lähdekoodina:
-
+Kaavio [yuml.me](http://yuml.me) lähdekoodina:
+----------------------------
+```
 [Kokoelma|artisti:Artisti;artistin_alias:String;nimi:String;kokoelman_nimi:String;tiedoston_nimi:String;sisalto:Blob;julkaisuryhma:Ryhma;julkaisuvuosi:int;lisatty:DateTime;julkinen:Boolean]
 
 [Artisti|nimi:String;aliakset:Alias*;kokoelmat:Kokoelma*;ensisijainen_ryhma:Ryhma;ryhmat:Ryhma;lisatty:DateTime]
@@ -96,5 +97,5 @@ Kaavio yuml.me lähdekoodina:
 [Artisti]++-0..*>[Jasenyydet]
 
 [Viesti]2-0..*[Kayttaja]
-
+```
 
