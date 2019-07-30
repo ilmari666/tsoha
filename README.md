@@ -79,7 +79,7 @@ Piste:
 Kommentti:
  * kommentoija:Kayttaja
  * kommentti:String
- * luotu
+ * luotu:DateTime
 
 Kaavio [yuml.me](http://yuml.me) lähdekoodina:
 ----------------------------
