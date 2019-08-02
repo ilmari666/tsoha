@@ -8,17 +8,6 @@ Arkisto sisältää sosiaalisia ominaisuuksia kuten yksityisviestit sekä pasteb
 
 Kehitysversiota voi tarkastella osoitteessa [http://ascii-archive.herokuapp.com/]
 
-Toimintoja:
------------
-* Rekisteröityminen (Aktivointi)
-* Sisäänkirjautuminen
-* Kokoelmien listaus
-* Kokoelman katselu
-* Kokoelman lisäys
-* Kokoelman katselmus (moderointi)
-* Kokoelman kommentointi ja arvostelu
-* Pasteboard
-* Yksityisviesti
 
 
 Lisää dokumentaatiota/suunnitelmia documentation/-kansion alla
