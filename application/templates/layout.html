@@ -6,6 +6,12 @@
   </head>
 
   <body>
+
+    <ul>
+      <li><a href="{{ url_for('collections_list') }}">List collections</a></li>
+      <li><a href="{{ url_for('collection_create') }}">Add a collection</a></li>
+    </ul>
+
     {% block body %}
       <p>
         Content.
