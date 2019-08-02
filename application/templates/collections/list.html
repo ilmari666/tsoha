@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Author</th>
+    </tr>
+    {% for collection in collections %}
+    <tr>
+      <td>{{ collection.name }}</td>
+      <td>{{ collection.author }}</td>
+      <td>
+          {% if collection.public %}
+          Published
+          {% else %}
+          <form method="GET" action="{{ url_for('collection_set_public', collection_id=collection.id) }}">
+            <input type="submit" value="Publish"/>
+          </form>
+
+          {% endif %}  
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
