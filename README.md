@@ -8,10 +8,9 @@ Anyone can browse  the collections by date added, group or points given by users
 Registered users can add collections and send private messages as well as use a paste-board to share their works.
 Collections and new users moderated by administrators.
 
-Work in progress can be viewed at  (http://ascii-archive.herokuapp.com/)
+Work in progress can be viewed at [Heroku](http://ascii-archive.herokuapp.com/)
 
-More documentation can be found under the (documentation/)-folder.
+More documentation can be found under the [documentation](documentation/)-folder.
 Some of the content has initially been created in Finnish but as the project progresses all the documentation should be in English only.
 
-[Use-cases](documentation/usecases.md)
-[Database diagram](documentation/dbdiagram.png) and [schema](documentation/database.md) (work in progress)
+[Use-cases](documentation/usecases.md), [database diagram](documentation/dbdiagram.png) and [schema](documentation/database.md) (work in progress)
