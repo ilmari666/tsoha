@@ -47,6 +47,7 @@ def collections_list():
   return render_template("collections/list.html", collections = Collection.query.all())
 
 @app.route("/collections/publish/<collection_id>/", methods=["GET"])
+@login_required
 def collection_set_public(collection_id):
   collection = Collection.query.get(collection_id)
   collection.public = True
@@ -54,6 +55,7 @@ def collection_set_public(collection_id):
   return redirect(url_for("collections_list"))
 
 @app.route("/collections/hide/<collection_id>/", methods=["GET"])
+@login_required
 def collection_set_private(collection_id):
   collection = Collection.query.get(collection_id)
   collection.public = False
