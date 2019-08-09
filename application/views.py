@@ -4,5 +4,4 @@ from application import app
 @app.route("/")
 def index():
   return redirect("/collections")
-#  return render_template("index.html")
 

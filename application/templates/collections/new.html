@@ -1,15 +1,40 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
-  <p>Name:<br/>
-    <input type="text" name="name"/>
+{% if collection.id %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_update') }}">
+    {{ form.id }}
+{% else %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
+
+{% endif %}
+  <p>
+    {{ form.name.label }}:<br/>
+    {{ form.name(value=test) }}
+    <ul>
+    {% for error in form.name.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
   </p>
-  <p>Author:<br/>
-    <input type="text" name="author"/>
+  <p>
+    {{ form.author.label }}:<br/>
+    {{ form.author }}
+    <ul>
+        {% for error in form.author.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
   </p>
-  <p>Select file to upload:<br/>
-    <input type=file name=file>
+  <p>
+    {{ form.file.label }}:<br/>
+    {{ form.file }}
+    <ul>
+      {% for error in form.file.errors %}
+      <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+ 
   </p>
   <p>
     <input type="submit" value="Add a new collection"/>
