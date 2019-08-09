@@ -13,7 +13,7 @@ class Collection(db.Model):
   # author used alias
   #author_alias = db.Column(db.Integer, nullable=False)
   # uploader id
-  #uploader = db.Column(db.Integer, nullable=False)
+  uploader_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
   # the actual collection
   #collection = db.Column(db.Binary, nullable=False)
   # release primary group
@@ -21,8 +21,9 @@ class Collection(db.Model):
   # visibility
   public = db.Column(db.Boolean, unique=False, default=False)
 
-  def __init__(self, name, author):
+  def __init__(self, name, author, uploader):
     self.name = name
     self.author = author
     self.done = False
+    self.uploader_id=uploader
 

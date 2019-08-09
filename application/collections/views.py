@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for
 from application import app, db
 from application.collections.models import Collection
 from application.collections.forms import CollectionForm
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 @app.route("/collections/new")
 def collection_new_form():
@@ -26,8 +26,9 @@ def collection_create():
   else:
     author = form.author.data
     name = form.name.data
-    collection = Collection(name, author)
+    collection = Collection(name, author, current_user.id)
     db.session().add(collection)
+
 
   db.session().commit()
   return redirect(url_for("collections_list"))
