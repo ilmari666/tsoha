@@ -8,10 +8,11 @@
   <body>
     {% if current_user.is_authenticated %}
     <p>
-      Logged in as {{ current_user.name }}. <a href="{{ url_for('auth_logout') }}">Logout</a>
+      Logged in as {{ current_user.username }}. <a href="{{ url_for('auth_logout') }}">Logout</a>
     </p>
     {% else %}
       <a href="{{ url_for('auth_login') }}">Login</a>
+      <a href="{{ url_for('auth_register') }}">Register</a>
     {% endif %}
     <ul>
       <li><a href="{{ url_for('collections_list') }}">List collections</a></li>
@@ -23,5 +24,17 @@
         Content.
       </p>
     {% endblock %}
+
+    <p>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+   </p>
   </body>
 </html>

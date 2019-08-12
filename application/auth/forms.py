@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField, validators
+from wtforms.fields.html5 import EmailField
   
 class LoginForm(FlaskForm):
   username = StringField("Username")
@@ -7,3 +8,20 @@ class LoginForm(FlaskForm):
   
   class Meta:
     csrf = False
+
+class RegistrationForm(FlaskForm):
+  username = StringField("Username", [validators.Length(min=2)])
+  email = EmailField("Email", [validators.DataRequired("Please enter an e-mail address."), validators.Email("Please enter a valid e-mail address.")])
+  password = PasswordField("Password", [validators.Length(min=8)])
+  password_verify = PasswordField("Verify password", [validators.Length(min=8)])
+
+  def validate(self):
+      success = super().validate()
+      if not (self.password.data == self.password_verify.data):
+        self.password_verify.errors.append("Password mismatch!")
+        return False
+      return success
+  
+  class Meta:
+    csrf = False
+   
