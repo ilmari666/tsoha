@@ -12,10 +12,10 @@ import os
 if os.environ.get("HEROKU"):
   app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 else:
-# Create a db called archive
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///archive.db"
-# Print out all queries
-app.config["SQLALCHEMY_ECHO"] = True
+  # Create a db called archive
+  app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///archive.db"
+  # Print out all queries
+  app.config["SQLALCHEMY_ECHO"] = True
 
 
 # Define upload folder
