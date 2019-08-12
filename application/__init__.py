@@ -5,10 +5,18 @@ app = Flask(__name__)
 UPLOAD_FOLDER="upload"
 
 from flask_sqlalchemy import SQLAlchemy
+
+import os
+
+# Heroku
+if os.environ.get("HEROKU"):
+  app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+else:
 # Create a db called archive
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///archive.db"
 # Print out all queries
 app.config["SQLALCHEMY_ECHO"] = True
+
 
 # Define upload folder
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -43,4 +51,7 @@ def load_user(user_id):
 
 
 # Create necessary db tables
-db.create_all()
+try:
+  db.create_all()
+except:
+  pass
