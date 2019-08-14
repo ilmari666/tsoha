@@ -5,6 +5,7 @@ from application.collections.forms import CollectionForm
 from flask_login import login_required, current_user
 
 @app.route("/collections/new")
+@login_required
 def collection_new_form():
   return render_template("collections/new.html", form=CollectionForm())
 
