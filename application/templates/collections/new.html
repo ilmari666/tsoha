@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
   
 {% block body %}
-{% if collection.id %}
+{% if collection and collection.id %}
   <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_update') }}">
     {{ form.id }}
 {% else %}

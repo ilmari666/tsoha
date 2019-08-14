@@ -11,12 +11,15 @@ class User(db.Model):
   username = db.Column(db.String(144), nullable=False)
   email = db.Column(db.String(144), nullable=False)
   password = db.Column(db.String(144), nullable=False)
-  uploads = db.relationship("Collection", backref='account', lazy=True)
+  accesslevel = db.Column(db.Integer)
+  #uploads = db.relationship("Collection", backref="uploader", lazy=True)
+#  uploader_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
   def __init__(self, username, email, password):
     self.username = username
     self.email = email
     self.password = password
+    self.accesslevel=0
   
   def get_id(self):
     return self.id
@@ -29,3 +32,6 @@ class User(db.Model):
 
   def is_authenticated(self):
     return True
+
+    def get_accesslevel(self):
+      return self.accesslevel
