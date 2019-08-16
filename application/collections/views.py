@@ -19,7 +19,7 @@ def collection_edit_form(collection_id):
 @login_required
 def collection_create():
   form =  CollectionForm(request.form)
-  if (form.id):
+  if ('id' in form):
     collection = Collection.query.get(form.id.data)
     collection.name=form.name.data
     collection.author=form.author.data
@@ -28,6 +28,7 @@ def collection_create():
     author = form.author.data
     name = form.name.data
     collection = Collection(name, author, current_user.id)
+    collection.filename=form.filename.data
     db.session().add(collection)
 
 

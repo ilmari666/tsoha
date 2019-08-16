@@ -26,6 +26,7 @@
         {% endfor %}
     </ul>
   </p>
+  <!--
   <p>
     {{ form.file.label }}:<br/>
     {{ form.file }}
@@ -36,7 +37,18 @@
     </ul>
  
   </p>
+  -->
   <p>
+      {{ form.filename.label }}:<br/>
+      {{ form.filename }}
+      <ul>
+        {% for error in form.filename.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+   
+    </p>
+    <p>
     <input type="submit" value="Add a new collection"/>
   </p>
 </form>

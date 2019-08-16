@@ -1,9 +1,11 @@
 from application import db
+from sqlalchemy import UniqueConstraint
 
 class User(db.Model):
 
   __tablename__ = "account"
-  
+  __table_args__ = (UniqueConstraint('username', 'email', name='_user_uc'),)
+
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
