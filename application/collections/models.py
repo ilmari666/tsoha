@@ -37,29 +37,29 @@ class Collection(db.Model):
 
   #  uploads = db.relationship("Collection", backref='account', lazy=True)
   
-  class Author(db.Model):
-    __tablename__ = "author"
-    id = db.Column(db.Integer, primary_key=True)
-    primary_alias = db.Column(db.String(30), nullable=False)
-    collection = db.relationship("Collection")
-    #aliases = db.relationship("Alias", backref='author', lazy=True)
-    #groups=db.Column()
-    aliases = db.relationship("Alias")
+class Author(db.Model):
+  __tablename__ = "author"
+  id = db.Column(db.Integer, primary_key=True)
+  primary_alias = db.Column(db.String(30), nullable=False)
+  collection = db.relationship("Collection")
+  #aliases = db.relationship("Alias", backref='author', lazy=True)
+  #groups=db.Column()
+  aliases = db.relationship("Alias")
 
-#  class Group(db.Model):
+#class Group(db.Model):
 #    id = db.Column(db.Integer, primary_key=True)
 #    name = db.Column(db.String(30))
 #    members = db.relationship("Author", backref="groups", lazy=True)
 
-  class Alias (db.Model):
-    def __init__(self, name, author_id):
-      self.name=name
-      self.author_id=author_id
+class Alias (db.Model):
+  def __init__(self, name, author_id):
+    self.name=name
+    self.author_id=author_id
   
-    __tablename__ = "alias"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
-    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
-    release_id =  db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
+  __tablename__ = "alias"
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(30), nullable=False)
+  author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+  release_id =  db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
 #    author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
    # author = db.relationship("Author", backref="aliases")
