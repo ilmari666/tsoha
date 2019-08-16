@@ -16,4 +16,5 @@ Use cases:
 A user/guest can list approved collections and view them by group/date added/release date/artist
 User can register by filling up a suitable form
 User can upload a collection which will be moderated before accessible to the public
-...
+User can add new authors
+Admin can link Authors and Aliases
