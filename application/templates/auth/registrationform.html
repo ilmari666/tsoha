@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block body %}
-{{ error }}
 <form method="POST" action="{{ url_for('auth_register') }}">
   <table>
     <tr>
@@ -13,11 +12,11 @@
       </td>
     </tr>
     {% if form.username.errors %}
-    <tr><td><ul>
+    <tr><td colspan="2">
       {% for error in form.username.errors %}
-        <li>{{ error }}</li>
+      <p style="color:red">{{ error }}</p>
       {% endfor %}
-    </ul></td></tr>
+    </td></tr>
     {% endif %}
     <tr>
       <td>
@@ -28,11 +27,11 @@
       </td>
     </tr>
     {% if form.email.errors %}
-    <tr><td><ul>
-      {% for error in form.email.errors %}
-        <li>{{ error }}</li>
+    <tr><td colspan="2">
+        {% for error in form.email.errors %}
+      <p style="color:red">{{ error }}</p>
       {% endfor %}
-    </ul></td></tr>
+    </td></tr>
     {% endif %}
     <tr>
       <td>
@@ -43,11 +42,11 @@
       </td>
     </tr>
     {% if form.password.errors %}
-    <tr><td><ul>
-      {% for error in form.password.errors %}
-        <li>{{ error }}</li>
+    <tr><td colspan="2">
+        {% for error in form.password.errors %}
+      <p style="color:red">{{ error }}</p>
       {% endfor %}
-    </ul></td></tr>
+    </td></tr>
     {% endif %}
 
     <tr>
@@ -59,11 +58,11 @@
       </td>
     </tr>
     {% if form.password_verify.errors %}
-    <tr><td><ul>
-      {% for error in form.password_verify.errors %}
-        <li>{{ error }}</li>
+    <tr><td colspan="2">
+        {% for error in form.password_verify.errors %}
+        <p style="color:red">{{ error }}</p>
       {% endfor %}
-    </ul></td></tr>
+    </td></tr>
     {% endif %}
 
     <tr>
