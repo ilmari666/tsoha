@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from application import app, db
-from application.collections.models import Collection
+from application.collections.models import Collection, Author, Alias
 from application.collections.forms import CollectionForm
 from flask_login import login_required, current_user
 
@@ -19,15 +19,32 @@ def collection_edit_form(collection_id):
 @login_required
 def collection_create():
   form =  CollectionForm(request.form)
+
+  author_alias = form.author.data
+  alias=Alias.query.filter_by(name=author_alias.data).first()
+  #if a non existing author (alias) given
+  if (alias==None):
+    author=Author()
+    alias=Alias(author_alias, author.id)
+    db.session().add(alias)
+    db.session().add(author)
+    db.session().commit()
+  
+  else:
+    author=Author.query.filter_by(id=alias.id).first()
+
+
+  #if existing collection
   if ('id' in form):
     collection = Collection.query.get(form.id.data)
     collection.name=form.name.data
-    collection.author=form.author.data
+    collection.author_id=author.id
     collection.public=form.public.data
   else:
     author = form.author.data
     name = form.name.data
     collection = Collection(name, author, current_user.id)
+    collection.author_id=author.id
     collection.filename=form.filename.data
     db.session().add(collection)
 

@@ -52,6 +52,10 @@ class Collection(db.Model):
 #    members = db.relationship("Author", backref="groups", lazy=True)
 
   class Alias (db.Model):
+    def __init__(self, name, author_id):
+      self.name=name
+      self.author_id=author_id
+  
     __tablename__ = "alias"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
