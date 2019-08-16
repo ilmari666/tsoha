@@ -10,6 +10,10 @@ Collections and new users moderated by administrators.
 
 Work in progress can be viewed at [Heroku](http://ascii-archive.herokuapp.com/)
 
+Test account is
+Login: AzureDiamond
+Password: hunter2
+
 More documentation can be found under the [documentation](documentation/)-folder.
 Some of the content has initially been created in Finnish but as the project progresses all the documentation should be in English only.
 
