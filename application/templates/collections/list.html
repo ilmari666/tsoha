@@ -9,7 +9,7 @@
     {% for collection in collections %}
     <tr>
       <td>{{ collection.name }}</td>
-      <td>{{ collection.author }}</td>
+      <td>{{ collection.alias.name }}</td>
       <td>
           {% if collection.public %}
           <form method="GET" action="{{ url_for('collection_set_private', collection_id=collection.id) }}">

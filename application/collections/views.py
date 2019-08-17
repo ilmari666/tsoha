@@ -21,12 +21,16 @@ def collection_create():
   form =  CollectionForm(request.form)
 
   author_alias = form.author.data
-  alias=Alias.query.filter_by(name=author_alias.data).first()
+  alias=Alias.query.filter_by(name=author_alias).first()
   #if a non existing author (alias) given
   if (alias==None):
     author=Author()
+    db.session().add(author)
+    db.session().commit()
     alias=Alias(author_alias, author.id)
     db.session().add(alias)
+    db.session().commit()
+    author.primary_alias_id=alias.id
     db.session().add(author)
     db.session().commit()
   
@@ -41,9 +45,9 @@ def collection_create():
     collection.author_id=author.id
     collection.public=form.public.data
   else:
-    author = form.author.data
+    #author = form.author.data
     name = form.name.data
-    collection = Collection(name, author, current_user.id)
+    collection = Collection(name=name, author=author.id, uploader=current_user.id, alias=alias.id)
     collection.author_id=author.id
     collection.filename=form.filename.data
     db.session().add(collection)
