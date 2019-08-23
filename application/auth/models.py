@@ -10,8 +10,8 @@ class User(db.Model):
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
-  username = db.Column(db.String(144), nullable=False)
-  email = db.Column(db.String(144), nullable=False)
+  username = db.Column(db.String(144), nullable=False, unique=True)
+  email = db.Column(db.String(144), nullable=False, unique=True)
   password = db.Column(db.String(144), nullable=False)
   accesslevel = db.Column(db.Integer)
   roles = db.relationship("Role")
