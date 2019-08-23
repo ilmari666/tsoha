@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user,  logout_user
-from application import app, db
+from application import app, db, role_required
 from application.auth.models import User, Role
 from application.auth.forms import LoginForm, RegistrationForm
 
@@ -47,7 +47,6 @@ def auth_register():
   db.session().add(user)
   db.session().commit()
   
-  db.session().add(Role(user.id, "ANY"))
   if username == "AzureDiamond":
     db.session().add(Role(user.id, "ADMIN"))
 
@@ -57,6 +56,7 @@ def auth_register():
   return redirect(url_for("index"))   
 
 @app.route("/auth/accounts", methods = ["GET"])
+@role_required(role="ADMIN")
 def administrate_access():
   users = User.query.all()
   for u in users:

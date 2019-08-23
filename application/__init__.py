@@ -56,7 +56,7 @@ def role_required(role="ANY"):
             if role != "ANY":
                 unauthorized = True
                 
-                for user_role in current_user.roles():
+                for user_role in current_user.get_roles():
                     if user_role == role:
                         unauthorized = False
                         break
@@ -67,6 +67,14 @@ def role_required(role="ANY"):
             return fn(*args, **kwargs)
         return decorated_view
     return wrapper
+
+
+# Logging in
+from application.auth.models import User
+
+@login_manager.user_loader
+def load_user(user_id):
+  return User.query.get(user_id)
 
 
 # Load application views and models
@@ -84,13 +92,6 @@ from application.authors import models
 from application.authors import views
 
 
-# Logging in
-from application.auth.models import User
-
-
-@login_manager.user_loader
-def load_user(user_id):
-  return User.query.get(user_id)
 
 
 # Create necessary db tables
@@ -98,3 +99,4 @@ try:
   db.create_all()
 except:
   pass
+

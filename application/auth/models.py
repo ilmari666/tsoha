@@ -36,7 +36,6 @@ class User(db.Model):
     return True
 
   def is_admin(self):
-    print ("IS_ADMIN ??")
     for role in self.roles:
       if role=='ADMIN':
         return True
@@ -45,7 +44,7 @@ class User(db.Model):
   def get_roles(self):
     def get_rolename(role):
       return role.name
-    return list(get_rolename, map(self.roles))
+    return list(map(get_rolename, self.roles))
 
 class Role(db.Model):
   def __init__(self, account_id, role):
