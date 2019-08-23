@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Author</th>
+      <th>Signature</th>
+      <th>edit</th>
+    </tr>
+    {% for author in authors %}
+    <tr>
+      <td>{{ author.primary_alias }}</td>
+      <td>{{ author.signature }}</td>
+
+      <td><a href="{{ url_for('view_author', author_id=author.id) }}">edit </a></td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

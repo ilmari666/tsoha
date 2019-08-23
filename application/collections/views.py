@@ -9,7 +9,7 @@ from flask_login import login_required, current_user
 def collection_new_form():
   return render_template("collections/new.html", form=CollectionForm())
 
-@app.route("/collections/edit//<collection_id>")
+@app.route("/collections/edit/<collection_id>")
 @login_required
 def collection_edit_form(collection_id):
   c = Collection.query.get(collection_id)
@@ -22,21 +22,18 @@ def collection_create():
 
   author_alias = form.author.data
   alias=Alias.query.filter_by(name=author_alias).first()
-  #if a non existing author (alias) given
+  #if a non existing author (alias) given create and author and alias, organize later in the flow
   if (alias==None):
-    author=Author()
+    author=Author(author_alias)
     db.session().add(author)
     db.session().commit()
     alias=Alias(author_alias, author.id)
+    alias.is_primary=True
+
     db.session().add(alias)
     db.session().commit()
-    author.primary_alias_id=alias.id
-    db.session().add(author)
-    db.session().commit()
-  
   else:
     author=Author.query.filter_by(id=alias.id).first()
-
 
   #if existing collection
   if ('id' in form):

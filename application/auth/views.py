@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user,  logout_user
 from application import app, db
-from application.auth.models import User
+from application.auth.models import User, Role
 from application.auth.forms import LoginForm, RegistrationForm
 
 @app.route("/auth/login", methods = ["GET", "POST"])
@@ -46,8 +46,22 @@ def auth_register():
   user = User(username, email, password)
   db.session().add(user)
   db.session().commit()
+  
+  db.session().add(Role(user.id, "new_user"))
+  db.session().commit()
+
   login_user(user)
   return redirect(url_for("index"))   
+
+@app.route("/auth/accounts", methods = ["GET"])
+def administrate_access():
+  users = User.query.all()
+  for u in users:
+    print(u.username)
+    print(u.roles)
+  return render_template("auth/list_accounts.html", accounts=users)
+
+
 
 
 @app.route("/auth/logout")

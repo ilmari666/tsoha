@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Group</th>
+      <th>Abbreviation</th>
+    </tr>
+    {% for group in groups %}
+    <tr>
+      <td>{{ group.name }}</td>
+      <td>{{ group.abbreviation }}</td>
+      <td><a href="{{ url_for('view_group', group_id=group.id) }}"></a></td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

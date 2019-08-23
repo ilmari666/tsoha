@@ -32,6 +32,12 @@ from application.collections import views
 from application.auth import models 
 from application.auth import views
 
+from application.groups import models 
+from application.groups import views
+
+from application.authors import models 
+from application.authors import views
+
 
 # Logging in
 from application.auth.models import User
