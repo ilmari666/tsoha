@@ -7,13 +7,14 @@
       <th>E-mail</th>
       <th>Roles</th>
     </tr>
+    {% for account in accounts %}</td>
     <tr>
       <td>{{ account.username }}</td>
       <td>{{ account.email }}</td>
       <td>
-        {%for role in account.roles %}
+        {% for role in account.roles %}
           {{ role.name }}
-        {%endfor %}
+        {% endfor %}
       </td>
     </tr>
     {% endfor %}

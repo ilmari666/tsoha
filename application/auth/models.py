@@ -35,8 +35,17 @@ class User(db.Model):
   def is_authenticated(self):
     return True
 
+  def is_admin(self):
+    print ("IS_ADMIN ??")
+    for role in self.roles:
+      if role=='ADMIN':
+        return True
+    return False
+
   def get_roles(self):
-    return self.roles
+    def get_rolename(role):
+      return role.name
+    return list(get_rolename, map(self.roles))
 
 class Role(db.Model):
   def __init__(self, account_id, role):

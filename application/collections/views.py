@@ -1,9 +1,10 @@
 from flask import render_template, request, redirect, url_for
-from application import app, db
+from flask_login import current_user, login_required
+
+from application import app, db, role_required
 from application.collections.models import Collection, Author, Alias
 from application.collections.forms import CollectionForm
-from flask_login import login_required, current_user
-
+ 
 @app.route("/collections/new")
 @login_required
 def collection_new_form():
@@ -68,7 +69,7 @@ def collections_list():
   return render_template("collections/list.html", collections = Collection.query.all())
 
 @app.route("/collections/publish/<collection_id>/", methods=["GET"])
-@login_required
+@role_required(role="ADMIN")
 def collection_set_public(collection_id):
   collection = Collection.query.get(collection_id)
   collection.public = True
@@ -76,7 +77,7 @@ def collection_set_public(collection_id):
   return redirect(url_for("collections_list"))
 
 @app.route("/collections/hide/<collection_id>/", methods=["GET"])
-@login_required
+@role_required(role="ADMIN")
 def collection_set_private(collection_id):
   collection = Collection.query.get(collection_id)
   collection.public = False
