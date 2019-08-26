@@ -2,8 +2,9 @@ from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 
 from application import app, db, role_required
-from application.collections.models import Collection, Author, Alias
+from application.collections.models import Collection
 from application.collections.forms import CollectionForm
+from application.authors.models import Author, Alias
  
 @app.route("/collections/new")
 @login_required
@@ -23,12 +24,13 @@ def collection_create():
 
   author_alias = form.author.data
   alias=Alias.query.filter_by(name=author_alias).first()
+  tag="add"
   #if a non existing author (alias) given create and author and alias, organize later in the flow
   if (alias==None):
     author=Author(author_alias)
     db.session().add(author)
     db.session().commit()
-    alias=Alias(author_alias, author.id)
+    alias=Alias(author_alias, tag, author.id)
     alias.is_primary=True
 
     db.session().add(alias)
