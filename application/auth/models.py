@@ -1,12 +1,12 @@
 from application import db
+from application.models import Base
 from sqlalchemy import UniqueConstraint
 
-class User(db.Model):
+class User(Base):
 
   __tablename__ = "account"
   __table_args__ = (UniqueConstraint('username', 'email', name='_user_uc'),)
 
-  id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -46,11 +46,10 @@ class User(db.Model):
       return role.name
     return list(map(get_rolename, self.roles))
 
-class Role(db.Model):
+class Role(Base):
   def __init__(self, account_id, role):
     self.account_id=account_id
     self.name=role
 
-  id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(12), nullable=False)
   account_id = db.Column(db.Integer, db.ForeignKey('account.id'))

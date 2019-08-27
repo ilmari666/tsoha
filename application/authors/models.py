@@ -1,12 +1,9 @@
 from application import db
-  
-# link authors to groups
-memberships  = db.Table('memberships',
-  db.Column('author_id', db.Integer, db.ForeignKey('author.id'), primary_key=True),
-  db.Column('group_id', db.Integer, db.ForeignKey('group.id'), primary_key=True)
-)
+from application.models import Base
 
-class Author(db.Model):
+
+
+class Author(Base):
   __tablename__ = "author"
   def __init__(self, name):
     self.name=name
@@ -15,7 +12,7 @@ class Author(db.Model):
   collection = db.relationship("Collection", backref="author", lazy='joined')
 #  aliases = db.relationship("Alias",  backref='author', lazy=True)
 
-class Alias (db.Model):
+class Alias (Base):
   def __init__(self, name, tag, author_id):
     self.name=name
     self.author_id=author_id

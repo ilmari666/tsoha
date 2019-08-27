@@ -1,9 +1,10 @@
 from application import db
+from application.models import Base
 from application.auth.models import User
 from application.authors.models import Author, Alias
 from application.groups.models import Group
 
-class Collection(db.Model):
+class Collection(Base):
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
@@ -24,9 +25,9 @@ class Collection(db.Model):
   uploader = db.relationship("User")
   uploader_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
   # the actual collection
-  # collection = db.Column(db.Binary, nullable=False)
+  collection = db.Column(db.Binary, nullable=False)
   # release primary group
-#  label = db.relationship("Group")
+  group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
   # visibility
   public = db.Column(db.Boolean, unique=False, default=False)
 
