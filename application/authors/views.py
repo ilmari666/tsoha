@@ -6,13 +6,9 @@ from application.collections.models import Collection
 from application.authors.forms import AuthorForm
 
 
-@app.route("/authors")
+@app.route("/authors", methods=["GET"])
 def list_authors():
   authors = Author.query.all()
-  for n in authors:
-    print(n)
-    print(n.id)
-
   return render_template("authors/list.html", authors = authors)
 
 @app.route("/authors/<author_id>/", methods=["GET"])
@@ -22,13 +18,11 @@ def view_author(author_id):
 
 
 @app.route("/authors/new")
-#@login_required
+@login_required
 def author_new_form():
   authors = Author.query.all()
   form = AuthorForm()
-
-
-  form.alias_of.choices = [(a.id, a.name) for a in Author.query.order_by('name')]
+  form.alias_of.choices = [(0, 'Choose existing artist')]+[(a.id, a.name) for a in Author.query.order_by('name')]
   return render_template("authors/new.html", form=form, authors=authors)
 
 
@@ -44,23 +38,17 @@ def author_create():
   alias_of=form.alias_of.data
   tag=form.tag.data
 
-  print(name+" "+tag)
-
   primary=False
-  if  (alias_of == None):
+  if  (alias_of == 0):
     alias=Alias.query.filter_by(name=name).first()
     if (alias==None):
       author=Author(name)
       db.session().add(author)
       db.session().commit()
       primary=True
-
-
     else:
       #author already exist, skip
       return redirect(url_for("list_authors"))
-
-
   else:
     author=Author.query.get(alias_of)
 
