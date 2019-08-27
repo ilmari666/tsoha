@@ -26,7 +26,7 @@ db = SQLAlchemy(app)
 
 
 from os import urandom
-app.config["SECRET_KEY"] = urandom(32)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 from flask_login import LoginManager, current_user
 login_manager = LoginManager()
