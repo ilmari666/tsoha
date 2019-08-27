@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+{% if group and group.id %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('group_update') }}">
+    {{ form.id }}
+{% else %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('group_create') }}">
+
+    <!-- name tag alias_of-->
+{% endif %}
+<p>New group</p>
+  <p>
+    {{ form.name.label }}:<br/>
+    {{ form.name(value=name) }}
+    <ul>
+    {% for error in form.name.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  </p>
+  <p>
+    {{ form.tag.label }}:<br/>
+    {{ form.tag }}
+    <ul>
+        {% for error in form.tag.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+  </p>
+  <p>
+      {{ form.alias_of.label }}:<br/>
+      {{ form.alias_of(value=[1,2,3]) }}
+      <ul>
+        {% for error in form.alias_of.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+   
+    </p>
+    <p>
+    <input type="submit" value="Add a new group"/>
+  </p>
+</form>
+{% endblock %}
+
