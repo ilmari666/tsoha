@@ -5,7 +5,11 @@ from application.authors.models import Author
 class Group(Base):
   __tablename__ = "group"
   id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String(30))
+  name = db.Column(db.String(30),nullable=False)
+  abbreviation = db.Column(db.String(7))
+  def __init__(self, name, abbreviation):
+    self.name=name
+    self.abbreviation=abbreviation
 
 class Membership():
   __tablename__ = "membership"

@@ -21,10 +21,8 @@ class Alias (Base):
   __tablename__ = "alias"
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(30), nullable=False)
-  tag = db.Column(db.String(12), nullable=False)
+  tag = db.Column(db.String(12))
   db.Column('is_primary', db.Boolean)
   author_id =  db.Column(db.Integer, db.ForeignKey('author.id'))
-  #author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
-#  release_id =  db.Column(db.Integer, db.ForeignKey('collection.id'), nullable=False)
 
 
