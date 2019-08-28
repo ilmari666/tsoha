@@ -24,9 +24,9 @@ def collection_create():
 
   author_alias = form.author.data
   alias=Alias.query.filter_by(name=author_alias).first()
-  tag="add"
   #if a non existing author (alias) given create and author and alias, organize later in the flow
   if (alias==None):
+    tag=""
     author=Author(author_alias)
     db.session().add(author)
     db.session().commit()
