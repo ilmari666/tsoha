@@ -5,7 +5,9 @@ class GroupForm(FlaskForm):
     id = HiddenField("id")
     name = StringField("Group name", [validators.Length(min=2)])
     abbreviation = StringField("Abbreviation",  [validators.Length(min=1)])
-    new_member = SelectField("Alias of", coerce=int)
+
+class AddMemberForm(FlaskForm):
+    member_id = SelectField("Select new member to add", coerce=int)
     
 
 #= SelectField(u'Group', coerce=int)

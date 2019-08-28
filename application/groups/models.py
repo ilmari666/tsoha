@@ -11,7 +11,7 @@ class Group(Base):
     self.name=name
     self.abbreviation=abbreviation
 
-class Membership():
+class Membership(db.Model):
   __tablename__ = "membership"
   id = db.Column(db.Integer, primary_key=True)
   author_id =  db.Column(db.Integer, db.ForeignKey('author.id'))
