@@ -6,6 +6,12 @@ New user can register.
 User access status can be changed to validated or super-user
 User can upload a new collection
 A collection can be moderated and edited
+Authors can be created
+Groups can be created
+Authors can be added and removed from groups
+
+Wishlist:
+============
 Users can comment collections
 User can message other users
 User can share pasted ASCII-art
