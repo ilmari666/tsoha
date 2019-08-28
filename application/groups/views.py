@@ -15,9 +15,9 @@ def list_groups():
 @app.route("/groups/new")
 @login_required
 def group_new_form():
+  # for new groups just offer a simple form with group name and acronym
+  form = GroupForm()
   authors = Author.query.all()
-  #@TODO dont offer authors already in group
-  form.alias_of.choices = [(0, 'Choose artist to add')]+[(a.id, a.name) for a in Author.query.order_by('name')]
   return render_template("groups/new.html", form=form, authors=authors)
 
 @app.route("/groups/<group_id>", methods=["GET"])
@@ -29,10 +29,42 @@ def group_view(group_id):
   form=GroupForm()
   return render_template("groups/new.html", form=form, authors=authors, members=members)
 
+@app.route("/groups", methods=["GET"])
+@login_required
+def group_create():
+  #create group if unique name. forward to existing groups view
+  form=GroupForm(request.form)
+  name=form.data.name
+  abbreviation=form.data.abbreviation
+  group=Group.query.filter_by(name=name).first()
+  if (group == None):
+    group=Group(name, abbreviation)
+    db.session().add(group)
+    db.session().commit()
+  return redirect(url_for("group_view")+"/"+group.id)
+
+
+@app.route("/groups/<group_id>/add_member/<member_id>", methods=["GET"])
+@login_required
+def add_member(group_id, member_id):
+  membership = Membership.query.filter_by(group_id=group_id).with_entities(Membership.member_id)
+  if (membership == None):
+    membership = Membership(group_id, member_id)
+    db.session().add(membership)
+    db.session().commit()
+  # possible cache issues will ensue
+  return redirect(url_for("group_view")+"/"+group_id)
+
+
+
 @app.route("/groups/<group_id>", methods=["POST"])
 @login_required
 def group_submit(group_id):
-  form = GroupForm(request.form)
-  author_alias = form.author.data
+  form=GroupForm(request.form)
+  name=form.data.name
+  abbreviation=form.data.abbreviation
+  group=Group.query.filter_by(name=name).first()
+  group.abbreviaion=abbreviation
+  group.name=name
+  db.session().commit()
 
-  group = Group.query.get(group_id)

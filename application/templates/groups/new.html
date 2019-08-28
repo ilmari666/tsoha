@@ -20,14 +20,16 @@
     </ul>
   </p>
   <p>
-    {{ form.tag.label }}:<br/>
-    {{ form.tag }}
+    {{ form.abbreviation.label }}:<br/>
+    {{ form.abbreviation}}
     <ul>
-        {% for error in form.tag.errors %}
+        {% for error in form.abbreviation.errors %}
         <li>{{ error }}</li>
         {% endfor %}
     </ul>
   </p>
+  <!-- allow adding members if group created -->
+  {% if group and group.id %}
   <p>
       {{ form.alias_of.label }}:<br/>
       {{ form.alias_of(value=[1,2,3]) }}
@@ -39,8 +41,13 @@
    
     </p>
     <p>
-    <input type="submit" value="Add a new group"/>
-  </p>
+      <input type="submit" value="Update group"/>
+    </p>
+    {% else %}
+    <p>
+      <input type="submit" value="Add a new group"/>
+    </p>
+  {% endif %}
 </form>
 {% endblock %}
 
