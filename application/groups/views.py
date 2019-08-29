@@ -72,6 +72,6 @@ def add_member(group_id):
     db.session().add(membership)
     db.session().commit()
   # possible cache issues will ensue
-  return redirect(url_for("view_group")+"/"+group_id)
+  return redirect(url_for("view_group", group_id=group_id))
 
 
