@@ -65,10 +65,10 @@ def update_group(group_id):
 @login_required
 def add_member(group_id):
   form=AddMemberForm(request.form)
-  member_id=form.member_id.data
-  membership = Membership.query.filter_by(group_id=group_id).with_entities(Membership.member_id)
+  author_id=form.member_id.data
+  membership = Membership.query.filter_by(group_id=group_id).with_entities(Membership.author_id)
   if (membership == None):
-    membership = Membership(group_id, member_id)
+    membership = Membership(group_id, author_id)
     db.session().add(membership)
     db.session().commit()
   # possible cache issues will ensue
