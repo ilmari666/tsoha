@@ -96,8 +96,8 @@ from application.authors import views
 
 
 # Create necessary db tables
-#try:
-db.create_all()
-#except:
-#  pass
+try:
+  db.create_all()
+except:
+  pass
 
