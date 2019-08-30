@@ -28,7 +28,7 @@ class Group(Base):
     return db.engine.execute(query)
 
   def get_members_with_alias_and_release_count(self):
-    query="SELECT a.author_id, release_count, name FROM (SELECT ms.author_id as author_id, COUNT(ms.author_id) as release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") as ms LEFT JOIN Collection as c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias as a ON ms.author_id = a.author_id WHERE a.is_primary=True"
+    query="SELECT a.author_id, release_count, name FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") AS ms LEFT JOIN Collection AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias AS a ON ms.author_id = a.author_id WHERE a.is_primary=True"
     return db.engine.execute(query)
 
 
