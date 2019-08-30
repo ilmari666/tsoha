@@ -19,7 +19,7 @@ class Collection(db.Model):
   uploader = db.relationship("User")
   uploader_id = db.Column(db.Integer, db.ForeignKey('account.id'), nullable=False)
   # the actual collection
-  collection = db.Column(db.Binary, nullable=False)
+  colly = db.Column(db.Binary, nullable=False)
   # release primary group
   group = db.relationship("Group")
   group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
@@ -30,7 +30,6 @@ class Collection(db.Model):
     self.name = name
     self.author_id = author
     self.group_id = group
-    self.done = False
     self.uploader_id=uploader
   
  

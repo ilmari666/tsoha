@@ -76,7 +76,7 @@ Relationships as described in yuml [yuml.me](http://yuml.me) markup
 [Group|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(30);abbreviation VARCHAR(7)];
 [Role|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(12);account_id:INT(FK)];
 [Membership|id:INT(PK);author_id:INT(FK);group_id:INT(FK)];
-[Collection|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(144);author_id:INT(FK);filename:VARCHAR(12);uploader_id:INT(FK);collection:BLOB;group_id:INT(FK);public:BOOLEAN]
+[Collection|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(144);author_id:INT(FK);filename:VARCHAR(12);uploader_id:INT(FK);colly:BLOB;group_id:INT(FK);public:BOOLEAN]
 
 
 [Account]1-1-*[Role]

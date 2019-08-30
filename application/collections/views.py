@@ -30,8 +30,8 @@ def collection_edit_form(collection_id):
 def collection_create():
   form =  CollectionForm(request.form)
 
-  collection = request.files["upload"]
   filename=request.files["upload"].filename
+  upload = request.files["upload"].read()
 
   author_id = form.author_id.data
   author=Author.query.get(author_id)
@@ -58,7 +58,7 @@ def collection_create():
     collection = Collection(name=name, author=author.id, group=group_id, uploader=current_user.id)
     collection.author_id=author.id
     collection.filename=filename
-    collection.collection=collection
+    collection.colly=upload
     db.session().add(collection)
 
 
