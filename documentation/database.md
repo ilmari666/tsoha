@@ -1,92 +1,90 @@
+The database follows the following schema
+=========================================
+
+CREATE TABLE account (
+	id INTEGER NOT NULL, 
+	date_created DATETIME, 
+	date_modified DATETIME, 
+	username VARCHAR(144) NOT NULL, 
+	email VARCHAR(144) NOT NULL, 
+	password VARCHAR(144) NOT NULL, 
+	accesslevel INTEGER, 
+	PRIMARY KEY (id), 
+	CONSTRAINT _user_uc UNIQUE (username, email), 
+	UNIQUE (username), 
+	UNIQUE (email)
+);
+CREATE TABLE author (
+	date_created DATETIME, 
+	date_modified DATETIME, 
+	id INTEGER NOT NULL, 
+	name VARCHAR(25), 
+	tag VARCHAR(12), 
+	PRIMARY KEY (id)
+);
+CREATE TABLE IF NOT EXISTS "group" (
+	date_created DATETIME, 
+	date_modified DATETIME, 
+	id INTEGER NOT NULL, 
+	name VARCHAR(30) NOT NULL, 
+	abbreviation VARCHAR(7), 
+	PRIMARY KEY (id)
+);
+CREATE TABLE role (
+	id INTEGER NOT NULL, 
+	date_created DATETIME, 
+	date_modified DATETIME, 
+	name VARCHAR(12) NOT NULL, 
+	account_id INTEGER, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(account_id) REFERENCES account (id)
+);
+CREATE TABLE membership (
+	id INTEGER NOT NULL, 
+	author_id INTEGER, 
+	group_id INTEGER, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(author_id) REFERENCES author (id), 
+	FOREIGN KEY(group_id) REFERENCES "group" (id)
+);
+CREATE TABLE collection (
+	id INTEGER NOT NULL, 
+	date_created DATETIME, 
+	date_modified DATETIME, 
+	name VARCHAR(144) NOT NULL, 
+	author_id INTEGER NOT NULL, 
+	filename VARCHAR(12) NOT NULL, 
+	uploader_id INTEGER NOT NULL, 
+	collection BLOB NOT NULL, 
+	group_id INTEGER, 
+	public BOOLEAN, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(author_id) REFERENCES author (id), 
+	FOREIGN KEY(uploader_id) REFERENCES account (id), 
+	FOREIGN KEY(group_id) REFERENCES "group" (id), 
+	CHECK (public IN (0, 1))
+);
 
 
-Kantakuvaus:
-------------
-
-Kokoelma:
-* artisti:Artist
-* artistin_alias:Alias
-* nimi:String
-* tiedoston_nimi:String
-* Kokoelma:Blob
-* ryhma:Ryhma
-* julkaisuvuosi:int
-* lisaaja:Kayttaja
-* lisatty:DateTime
-* julkinen:Boolean
-
-Artisti:
- * nimi:String
- * ensisijainen_ryhma:Ryhma
- * lisattu:DateTime
- * ryhmat:Ryhma*
- * alias:Alias*
- * kokoelmat:Kokoelma*
-
-Ryhma:
- * nimi:String
- * jasenet:Artisti*
-
-Kayttaja:
- * luotu:DateTime
- * tunnus:String
- * sahkoposti:String
- * salasana-hash:String
- * oikeustaso:int
-
-Jasenyys:
- * ryhma:Ryhma
- * artisti:Artisti
-
-Alias:
- * alias:String
- * Artisti
-
-Viesti:
- * lahettaja:Kayttaja
- * vastaanottaja:Kayttaja
- * paivamaara:DateTime
- * luettu:Boolean
- * lahettajan_poistama:Boolean
- * vastaanottajana_poistama:Boolean
-
-Piste:
- * pisteyttaja:Kayttaja
- * kokoelma:Kokoelma
- * pisteet:int
- * annettu:DateTime
-
-Kommentti:
- * kommentoija:Kayttaja
- * kommentti:String
- * luotu:DateTime
-
-Kaavio [yuml.me](http://yuml.me) lähdekoodina:
+Relationships as described in yuml [yuml.me](http://yuml.me) markup
 ----------------------------
+
 ```
-[Kokoelma|artisti:Artisti;artistin_alias:String;nimi:String;kokoelman_nimi:String;tiedoston_nimi:String;sisalto:Blob;julkaisuryhma:Ryhma;julkaisuvuosi:int;lisatty:DateTime;julkinen:Boolean]
 
-[Artisti|nimi:String;aliakset:Alias*;kokoelmat:Kokoelma*;ensisijainen_ryhma:Ryhma;ryhmat:Ryhma;lisatty:DateTime]
+[Account|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;username:VARCHAR(144);email:VARCHAR(144);password:VARCHAR(144);accesslevel:INTEGER]
+[Author|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(25);tag:VARCHAR(12)]
+[Group|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(30);abbreviation VARCHAR(7)];
+[Role|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(12);account_id:INT(FK)];
+[Membership|id:INT(PK);author_id:INT(FK);group_id:INT(FK)];
+[Collection|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(144);author_id:INT(FK);filename:VARCHAR(12);uploader_id:INT(FK);collection:BLOB;group_id:INT(FK);public:BOOLEAN]
 
-[Jasenyys|ryhma:Ryhma;artisti:Artisti]
 
-[Viesti|lahettaja:Kayttaja;vastaanottaja:Kayttaja;paivamaara:DateTime;luettu:Boolean;lahettajan_poistama:Boolean;vastaanottajan_poistama:Boolean]
-
-[Kayttaja|tunnus:String;sahkoposti:String;luotu:DateTime;sahkoposti:String;salasana:String;oikeustaso:int]
-
-[Alias|alias:string;artisti:Artisti]
-
-[Kommentti|kommentoija:Kayttaja;kommentti:String;luotu:DateTime]
-
-[Piste|pisteyttaja:Kayttaja;kokoelma:Kokoelma;pisteet:int;annettu:DateTime]
-
-[Artisti]1-1..*[Alias]
-[Kokoelma]1-1>[Artisti]
-[Kokoelma]*-1>[Kayttaja]
-[Kokoelma]1-*>[Piste]
-[Kokoelma]1-*>[Kommentti]
-[Artisti]++-0..*>[Jasenyys]
-[Viesti]2-0..*[Kayttaja]
+[Account]1-1-*[Role]
+[Collection]*-1[Account]
+[Collection]1-1[Author]<
+[Collection]*-0-1[Group]
+[Author]1-*[Membership]
+[Membership]*-1[Group]
 
 ```
 
