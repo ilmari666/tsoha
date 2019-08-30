@@ -23,7 +23,11 @@ class Group(Base):
   def get_members_with_release_count(self):
     # get member details including amount of collections credited
 #    query="SELECT author_id, release_count, name, tag FROM (SELECT ms.author_id as author_id, COUNT(ms.author_id) as release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") as ms LEFT JOIN Collection as c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN author as a ON author_id = a.id"
-    query="SELECT author_id, release_count, name, tag FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") AS ms LEFT JOIN Collection AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN author AS a ON author_id = a.id;"
+#    query="SELECT author_id, release_count, name, tag FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") AS ms LEFT JOIN Collection AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN author AS a ON author_id = a.id;"
+
+
+    query="SELECT author_id, release_count, name, tag FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") AS ms LEFT JOIN Collection AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN author AS a ON author_id = a.id) AS xx;"
+
 
     return db.engine.execute(query)
 
