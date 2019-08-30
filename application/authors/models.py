@@ -1,16 +1,27 @@
 from application import db
 from application.models import Base
-
-
+from sqlalchemy.sql import text
 
 class Author(Base):
   __tablename__ = "author"
-  def __init__(self, name):
+  def __init__(self, name, tag):
     self.name=name
+    self.tag=tag
   id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String)
+  name = db.Column(db.String(25))
+  tag = db.Column(db.String(12))
   collection = db.relationship("Collection", backref="author", lazy='joined')
-#  aliases = db.relationship("Alias",  backref='author', lazy=True)
+
+  @staticmethod
+  def get_authors_with_memberships():
+    query = text("SELECT * FROM Author")
+    return db.engine.execute(query)
+  
+  def get_members(self):
+    query="SELECT a.id, a.name FROM membership AS ms LEFT JOIN author AS a ON a.id = ms.author_id WHERE group_id = "+str(self.id)
+    return db.engine.execute(query)
+
+
 
 class Alias (Base):
   def __init__(self, name, tag, author_id):
@@ -22,7 +33,7 @@ class Alias (Base):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(30), nullable=False)
   tag = db.Column(db.String(12))
-  db.Column('is_primary', db.Boolean)
+  is_primary = db.Column(db.Boolean)
   author_id =  db.Column(db.Integer, db.ForeignKey('author.id'))
 
 

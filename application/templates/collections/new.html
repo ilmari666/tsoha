@@ -18,24 +18,36 @@
     </ul>
   </p>
   <p>
-    {{ form.author.label }}:<br/>
-    {{ form.author }}
+    {{ form.author_id.label }}:<br/>
+    {{ form.author_id }}
+    <a href="{{ url_for('author_new_form') }}">or add a new one</a>
     <ul>
-        {% for error in form.author.errors %}
+        {% for error in form.author_id.errors %}
         <li>{{ error }}</li>
         {% endfor %}
     </ul>
   </p>
   <p>
-      {{ form.filename.label }}:<br/>
-      {{ form.filename }}
-      <ul>
-        {% for error in form.filename.errors %}
+    {{ form.group_id.label }}:<br/>
+    {{ form.group_id }}
+    <a href="{{ url_for('group_new_form') }}">or add a new one</a>
+    <ul>
+        {% for error in form.group_id.errors %}
         <li>{{ error }}</li>
         {% endfor %}
-      </ul>
-   
-    </p>
+    </ul>
+  </p>
+    <p>
+        {{ form.upload.label }}:<br/>
+        {{ form.upload }}
+        <ul>
+          {% for error in form.upload.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+     
+      </p>
+        
     <p>
     <input type="submit" value="Add a new collection"/>
   </p>

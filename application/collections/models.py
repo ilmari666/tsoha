@@ -4,7 +4,8 @@ from application.auth.models import User
 from application.authors.models import Author, Alias
 from application.groups.models import Group
 
-class Collection(Base):
+class Collection(db.Model):
+  __tablename__="collection"
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
   date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
@@ -12,13 +13,6 @@ class Collection(Base):
   name = db.Column(db.String(144), nullable=False)
   # author
   author_id = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
-
-  alias_id = db.Column(db.Integer, db.ForeignKey('alias.id'), nullable=False)
-  # author used alias
-  alias = db.relationship("Alias")
-
-
-#  author_alias = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
   #filename 8+3 including space for dot
   filename = db.Column(db.String(12), nullable=False)
   # uploader id
@@ -27,16 +21,17 @@ class Collection(Base):
   # the actual collection
   collection = db.Column(db.Binary, nullable=False)
   # release primary group
-  group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+  group = db.relationship("Group")
+  group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
   # visibility
   public = db.Column(db.Boolean, unique=False, default=False)
 
-  def __init__(self, name, author, uploader, alias):
+  def __init__(self, name, author, group, uploader):
     self.name = name
     self.author_id = author
-    self.alias_id=alias
+    self.group_id = group
     self.done = False
     self.uploader_id=uploader
   
-
+ 
 

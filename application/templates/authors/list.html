@@ -11,7 +11,7 @@
     {% for author in authors %}
     <tr>
       <td>{{ author.name }}</td>
-      <td>link aliases, tags, groups</td>
+      <td>{{ author.tag }}</td>
 
       <td><a href="{{ url_for('view_author', author_id=author.id) }}">edit </a></td>
     </tr>

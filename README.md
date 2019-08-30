@@ -18,3 +18,5 @@ More documentation can be found under the [documentation](documentation/)-folder
 Some of the content has initially been created in Finnish but as the project progresses all the documentation should be in English only.
 
 [Use-cases](documentation/usecases.md), [database diagram](documentation/dbdiagram.png) and [schema](documentation/database.md) (work in progress)
+
+

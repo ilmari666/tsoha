@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+  
+{% block body %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('update_group', group_id=group.id) }}">
+    {{ form.id }}
+<p>Edit</p>
+  <p>
+    {{ form.name.label }}:<br/>
+    {{ form.name(value=group.name) }}
+    {% for error in form.name.errors %}
+      <p>{{ error }}</p>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.abbreviation.label }}:<br/>
+    {{ form.abbreviation(value=group.abbreviation) }}
+      {% for error in form.abbreviation.errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+  </p>
+  <p>
+    <input type="submit" value="Update group"/>
+  </p>
+</form>
+<p>
+<table>
+  <tr>
+    <th>Author</th>
+    <th>Tag</th>
+    <th>Releases</th>
+    <th>Action</th>
+  </tr>
+  {% for member in members %}
+  <tr>
+    <td>i{{ member.name }} </td>
+    <td>{{ member.tag}} </td>
+    <td>{{ member.release_count }} </td>
+    <td> 
+       <a href="{{ url_for('remove_member', group_id=group.id) }}?member_id={{member.author_id}}">Remove</a>
+    </form>
+      </td>
+  </tr>
+  {% endfor %}
+
+</table>
+
+</p>
+
+<p>
+  <form method="GET" enctype="multipart/form-data" action="{{ url_for('add_member', group_id=group.id) }}">
+    {{ memberform.member_id.label }}:<br/>
+    {{ memberform.member_id }}</br>
+    <input type="submit" value="Add member"/>
+  </form>
+</p>
+{% endblock %}
+

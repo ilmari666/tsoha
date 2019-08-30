@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 
 {% block body %}
-  <table>
+<p class="nav-item">
+  <a class="nav-link" href="{{ url_for('collection_new_form') }} ">Add a collection</a>
+</p>
+
+{%if collections is not undefined %}
+<table>
     <tr>
       <th>Name</th>
       <th>Author</th>
@@ -9,7 +14,7 @@
     {% for collection in collections %}
     <tr>
       <td>{{ collection.name }}</td>
-      <td>{{ collection.alias.name }}</td>
+      <td>{{ collection.author.name }}</td>
       <td>
           {% if collection.public %}
           <form method="GET" action="{{ url_for('collection_set_private', collection_id=collection.id) }}">
@@ -25,4 +30,5 @@
     </tr>
     {% endfor %}
   </table>
+{% endif %}
 {% endblock %}

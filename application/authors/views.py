@@ -25,8 +25,6 @@ def author_new_form():
   form.alias_of.choices = [(0, 'Choose existing artist')]+[(a.id, a.name) for a in Author.query.order_by('name')]
   return render_template("authors/new.html", form=form, authors=authors)
 
-
-
 @app.route("/authors", methods=["POST"])
 @login_required
 def author_create():
@@ -35,29 +33,13 @@ def author_create():
 
   form =  AuthorForm(request.form)
   name=form.name.data
-  alias_of=form.alias_of.data
   tag=form.tag.data
 
-  primary=False
-  if  (alias_of == 0):
-    alias=Alias.query.filter_by(name=name).first()
-    if (alias==None):
-      author=Author(name)
-      db.session().add(author)
-      db.session().commit()
-      primary=True
-    else:
-      #author already exist, skip
-      return redirect(url_for("list_authors"))
-  else:
-    author=Author.query.get(alias_of)
+  author=Author.query.filter_by(name=name).first()
 
-  alias=Alias(name, tag, author.id)
-  alias.is_primary=primary
-
-  db.session().add(alias)
-  db.session().commit()
-
-  db.session().commit()
+  if (author==None):
+    author=Author(name, tag)
+    db.session().add(author)
+    db.session().commit()
   return redirect(url_for("list_authors"))
 

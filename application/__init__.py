@@ -78,25 +78,26 @@ def load_user(user_id):
 
 
 # Load application views and models
-from application import views
-from application.collections import models
-from application.collections import views
-
 from application.auth import models 
-from application.auth import views
-
 from application.groups import models 
-from application.groups import views
-
 from application.authors import models 
+
+from application.collections import models
+
+
+
+from application import views
+from application.collections import views
+from application.auth import views
+from application.groups import views
 from application.authors import views
 
 
 
 
 # Create necessary db tables
-try:
-  db.create_all()
-except:
-  pass
+#try:
+db.create_all()
+#except:
+#  pass
 
