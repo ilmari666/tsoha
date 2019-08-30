@@ -5,8 +5,10 @@ There are thousands of published collections and they have been released by diff
 
 The same artist can use different aliases and release under different groups and labels.
 Anyone can browse  the collections by date added, group or points given by users.
-Registered users can add collections and send private messages as well as use a paste-board to share their works.
 Collections and new users moderated by administrators.
+
+Usage:
+User can easily navigate through the menu and do all these actions described
 
 Work in progress can be viewed at [Heroku](http://ascii-archive.herokuapp.com/)
 
