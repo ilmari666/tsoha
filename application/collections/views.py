@@ -68,8 +68,8 @@ def collections_list():
 @app.route("/collections/<collection_id>/", methods=["GET"])
 def collections_view(collection_id):
   collection=Collection.query.get(collection_id)
-  content=collection.colly.decode("latin_1").replace("\n","<br>")
-  return render_template("collections/view.html", collection = collection, content=Markup(content))
+  content=collection.colly.decode("latin_1") #.replace("\n","<br>")
+  return render_template("collections/view.html", collection = collection, content=content) #content=Markup(content))
 
 
 @app.route("/collections/publish/<collection_id>/", methods=["GET"])
