@@ -1,11 +1,13 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required
+from jinja2 import Markup
 
 from application import app, db, role_required
 from application.collections.models import Collection
 from application.collections.forms import CollectionForm
 from application.authors.models import Author
 from application.groups.models import Group
+import werkzeug
  
 @app.route("/collections/new")
 @login_required
@@ -38,13 +40,6 @@ def collection_create():
   group_id = form.group_id.data
   group = Group.query.get(group_id)
   
-  #if a non existing author (alias) given create and author and alias, organize later in the flow
-  #author_name = form.author_name.data
-  #if (author_id==0 and author_name != ""):
-  #  author=Author(author_name, author_name)
-  #  db.session().add(author)
-  #  db.session().commit()
-
   #if existing collection
   if ('id' in form):
     collection = Collection.query.get(form.id.data)
@@ -72,7 +67,9 @@ def collections_list():
 
 @app.route("/collections/<collection_id>/", methods=["GET"])
 def collections_view(collection_id):
-  return render_template("collections/view.html", collection = Collection.query.get(collection_id))
+  collection=Collection.query.get(collection_id)
+  content=collection.colly.decode("latin_1").replace("\n","<br>")
+  return render_template("collections/view.html", collection = collection, content=Markup(content))
 
 
 @app.route("/collections/publish/<collection_id>/", methods=["GET"])

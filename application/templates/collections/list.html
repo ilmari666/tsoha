@@ -12,19 +12,28 @@
       <th>Author</th>
     </tr>
     {% for collection in collections %}
-    <tr>
-      <td>{{ collection.name }}</td>
-      <td>{{ collection.author.name }}</td>
-      <td>
-          {% if collection.public %}
-          <form method="GET" action="{{ url_for('collection_set_private', collection_id=collection.id) }}">
-              <input type="submit" value="Hide"/>
-            </form>
-            {% else %}
-          <form method="GET" action="{{ url_for('collection_set_public', collection_id=collection.id) }}">
-            <input type="submit" value="Publish"/>
-          </form>
 
+          {% if collection.public %}
+          <tr>
+              <td><a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name }}</a></td>
+          <td>{{ collection.author.name }}</td>
+          <td>
+          <form method="GET" action="{{ url_for('collection_set_private', collection_id=collection.id) }}">
+            <input type="submit" value="Hide"/>
+          </form>
+          </td>
+        </tr>
+              {% else %}
+              <tr>
+
+            <td>{{ collection.name }}</td>
+            <td>{{ collection.author.name }}</td>
+            <td>
+            <form method="GET" action="{{ url_for('collection_set_public', collection_id=collection.id) }}">
+              <input type="submit" value="Publish"/>
+            </form>
+          </td>
+        </tr>
           {% endif %}  
       </td>
     </tr>
