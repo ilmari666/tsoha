@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<form method="POST" action="{{ url_for('auth_update', user_id=user.id) }}">
+  <table>
+    <tr>
+      <td>
+	      {{ user.username }}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        {{ form.email.label }}
+      </td>
+      <td>
+        {{ form.email (value=user.email)}}
+      </td>
+    </tr>
+    {% if form.email.errors %}
+    <tr><td colspan="2">
+        {% for error in form.email.errors %}
+      <p style="color:red">{{ error }}</p>
+      {% endfor %}
+    </td></tr>
+    {% endif %}
+
+    <tr>
+            <td>
+              {{ form.role.label }}
+            </td>
+            <td>
+              {{ form.role(value=rolename) }}
+            </td>
+          </tr>
+      
+    <tr>
+      <td colspan="2">
+	      <input type="submit" value="Update"/>
+      </td>
+    </tr>
+</form>
+{% endblock %}

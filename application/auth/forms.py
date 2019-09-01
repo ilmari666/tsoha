@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, validators
+from wtforms import PasswordField, StringField, validators, SelectField
 from wtforms.fields.html5 import EmailField
   
 class LoginForm(FlaskForm):
@@ -25,3 +25,7 @@ class RegistrationForm(FlaskForm):
   class Meta:
     csrf = False
    
+class EditForm(FlaskForm):
+  username = StringField("Username", [validators.Length(min=2)])
+  email = EmailField("Email", [validators.DataRequired("Please enter an e-mail address."), validators.Email("Please enter a valid e-mail address.")])
+  role = SelectField("Access group:")

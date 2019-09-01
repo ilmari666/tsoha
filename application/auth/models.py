@@ -13,7 +13,6 @@ class User(Base):
   username = db.Column(db.String(144), nullable=False, unique=True)
   email = db.Column(db.String(144), nullable=False, unique=True)
   password = db.Column(db.String(144), nullable=False)
-  accesslevel = db.Column(db.Integer)
   roles = db.relationship("Role")
   #uploads = db.relationship("Collection", backref="uploader", lazy=True)
 #  uploader_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
