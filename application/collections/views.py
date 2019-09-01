@@ -6,7 +6,7 @@ from application import app, db, role_required
 from application.collections.models import Collection
 from application.collections.forms import CollectionForm
 from application.authors.models import Author
-from application.groups.models import Group
+from application.groups.models import Crew
 import werkzeug
  
 @app.route("/collections/new")

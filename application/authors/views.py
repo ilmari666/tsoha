@@ -14,7 +14,8 @@ def list_authors():
 @app.route("/authors/<author_id>/", methods=["GET"])
 def view_author(author_id):
   author = Author.query.get(author_id)
-  return render_template("authors/view.html", author = author)
+  memberships=author.get_memberships()
+  return render_template("authors/view.html", author = author, memberships=memberships)
 
 
 @app.route("/authors/new")

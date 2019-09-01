@@ -73,7 +73,7 @@ Relationships as described in yuml [yuml.me](http://yuml.me) markup
 
 [Account|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;username:VARCHAR(144);email:VARCHAR(144);password:VARCHAR(144);accesslevel:INTEGER]
 [Author|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(25);tag:VARCHAR(12)]
-[Group|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(30);abbreviation VARCHAR(7)];
+[Crew|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(30);abbreviation VARCHAR(7)];
 [Role|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(12);account_id:INT(FK)];
 [Membership|id:INT(PK);author_id:INT(FK);group_id:INT(FK)];
 [Collection|id:INT(PK);date_created:DATETIME;date_modified:DATETIME;name:VARCHAR(144);author_id:INT(FK);filename:VARCHAR(12);uploader_id:INT(FK);colly:BLOB;group_id:INT(FK);public:BOOLEAN]
@@ -82,9 +82,9 @@ Relationships as described in yuml [yuml.me](http://yuml.me) markup
 [Account]1-1-*[Role]
 [Collection]*-1[Account]
 [Collection]1-1[Author]<
-[Collection]*-0-1[Group]
+[Collection]*-0-1[Crew]
 [Author]1-*[Membership]
-[Membership]*-1[Group]
+[Membership]*-1[Crew]
 
 ```
 

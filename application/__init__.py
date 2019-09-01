@@ -96,8 +96,11 @@ from application.authors import views
 
 
 # Create necessary db tables
-try:
-  db.create_all()
-except:
-  pass
+if os.environ.get("HEROKU"):
 
+  try:
+    db.create_all()
+  except:
+    pass
+else:
+  db.create_all()

@@ -17,8 +17,8 @@ class Author(Base):
     query = text("SELECT * FROM Author")
     return db.engine.execute(query)
   
-  def get_members(self):
-    query="SELECT a.id, a.name FROM membership AS ms LEFT JOIN author AS a ON a.id = ms.author_id WHERE group_id = "+str(self.id)
+  def get_memberships(self):
+    query="SELECT g.id, g.name FROM (SELECT group_id FROM membership WHERE author_id="+str(self.id)+") AS ms LEFT JOIN crew AS g ON g.id = ms.group_id"
     return db.engine.execute(query)
 
 

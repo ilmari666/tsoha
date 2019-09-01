@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from application import app, db
-from application.groups.models import Group
+from application.groups.models import Crew
 from application.groups.models import Membership
 from application.authors.models import Author
 from application.groups.forms import GroupForm, AddMemberForm
@@ -9,7 +9,7 @@ from application.groups.forms import GroupForm, AddMemberForm
 
 @app.route("/groups", methods=["GET"])
 def list_groups():
-  groups = Group.query.all()
+  groups = Crew.query.all()
   return render_template("groups/list.html", groups = groups)
 
 @app.route("/groups", methods=["POST"])
@@ -19,9 +19,9 @@ def group_create():
   form=GroupForm(request.form)
   name=form.name.data
   abbreviation=form.abbreviation.data
-  group=Group.query.filter_by(name=name).first()
+  group=Crew.query.filter_by(name=name).first()
   if (group == None):
-    group=Group(name, abbreviation)
+    group=Crew(name, abbreviation)
     db.session().add(group)
     db.session().commit()
   return redirect(url_for("view_group", group_id=group.id))
@@ -66,7 +66,7 @@ def remove_member(group_id):
 @login_required
 def view_group(group_id):
   group_id=int(group_id)
-  group = Group.query.get(group_id)
+  group = Crew.query.get(group_id)
 #  members = Membership.query.filter_by(group_id=group_id).with_entities(Membership.author_id)
 #  non_members = Author.query.all()
   members = group.get_members_with_release_count()
@@ -84,11 +84,10 @@ def update_group(group_id):
   form=GroupForm(request.form)
   name=form.name.data
   abbreviation=form.abbreviation.data
-  group=Group.query.get(group_id)
+  group=Crew.query.get(group_id)
   group.abbreviaion=abbreviation
   group.name=name
   db.session().commit()
 
   return redirect(url_for("view_group", group_id=group.id))
-
 

@@ -4,6 +4,9 @@
 
   <p>
     {{ author.name }}:<br/>
+    {% for group in memberships %}
+      {{ group.name }}
+    {% endfor %}
   </p>
 {% endblock %}
 

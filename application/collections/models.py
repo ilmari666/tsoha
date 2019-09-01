@@ -2,7 +2,7 @@ from application import db
 from application.models import Base
 from application.auth.models import User
 from application.authors.models import Author, Alias
-from application.groups.models import Group
+from application.groups.models import Crew
 
 class Collection(db.Model):
   __tablename__="collection"
@@ -21,8 +21,8 @@ class Collection(db.Model):
   # the actual collection
   colly = db.Column(db.Binary, nullable=False)
   # release primary group
-  group = db.relationship("Group")
-  group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
+  group = db.relationship("Crew")
+  group_id = db.Column(db.Integer, db.ForeignKey('crew.id'))
   # visibility
   public = db.Column(db.Boolean, unique=False, default=False)
 
