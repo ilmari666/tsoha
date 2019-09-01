@@ -22,15 +22,8 @@ class Crew(Base):
 
   def get_members_with_release_count(self):
     # get member details including amount of collections credited
-    query="SELECT author_id, release_count, name, tag FROM (SELECT ms.author_id as author_id, COUNT(ms.author_id) as release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") as ms LEFT JOIN Collection as c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN author as a ON author_id = a.id"
 
-
-    query="SELECT author_id, release_count, name, tag FROM (SELECT ms.author_id as author_id, COUNT(ms.author_id) as release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") as ms LEFT JOIN Collection as c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN author as a ON author_id = a.id"
-
-
-
-#    postgresquery="SELECT ff.count, author.name, author.id FROM author LEFT JOIN (SELECT * FROM membership WHERE group_id="+str(self.id)+") AS ms ON ms.author_id=author.id LEFT JOIN crew ON ms.group_id = crew.id LEFT JOIN (SELECT author_id, COUNT(*) FROM collection GROUP BY collection.author_id) AS ff ON ff.author_id=author.id;"
-
+    query="select collection.author_id,  author.name, author.tag, count(collection.author_id) from (select * from membership where group_id="+str(self.id)+") as ms LEFT JOIN author on author.id=ms.author_id LEFT JOIN collection ON collection.author_id=ms.author_id GROUP BY collection.author_id, author.name, author.tag;"
     return db.engine.execute(query)
 
   def get_members_with_alias_and_release_count(self):
