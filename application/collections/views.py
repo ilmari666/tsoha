@@ -14,7 +14,7 @@ import werkzeug
 def collection_new_form():
   form=CollectionForm()
   form.author_id.choices = [(0, 'Choose artist')]+[(a.id, a.name) for a in Author.query.all()]
-  form.group_id.choices = [(0, 'Choose group')]+[(a.id, a.name) for a in Group.query.all()]
+  form.group_id.choices = [(0, 'Choose group')]+[(c.id, c.name) for c in Crew.query.all()]
   return render_template("collections/new.html", form=form)
 
 
@@ -38,7 +38,7 @@ def collection_create():
   author_id = form.author_id.data
   author=Author.query.get(author_id)
   group_id = form.group_id.data
-  group = Group.query.get(group_id)
+  group = Crew.query.get(group_id)
   
   #if existing collection
   if ('id' in form):
