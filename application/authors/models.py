@@ -14,7 +14,7 @@ class Author(Base):
 
   @staticmethod
   def get_authors_with_memberships():
-    query = text("SELECT * FROM Author")
+    query = text("SELECT * FROM Author LEFT JOIN Membership ON Author.id=Membership.author_id LEFT JOIN Crew ON Crew.id=Membership.group_id")
     return db.engine.execute(query)
   
   def get_memberships(self):

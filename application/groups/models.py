@@ -23,7 +23,7 @@ class Crew(Base):
   def get_members_with_release_count(self):
     # get member details including amount of collections credited
 
-    query="select collection.author_id,  author.name, author.tag, count(collection.author_id) as release_count from (select * from membership where group_id="+str(self.id)+") as ms LEFT JOIN author on author.id=ms.author_id LEFT JOIN collection ON collection.author_id=ms.author_id GROUP BY collection.author_id, author.name, author.tag;"
+    query="select author.id,  author.name, author.tag, count(collection.author_id) as release_count from (select * from membership where group_id="+str(self.id)+") as ms LEFT JOIN author on author.id=ms.author_id LEFT JOIN collection ON collection.author_id=ms.author_id GROUP BY collection.author_id, author.name, author.tag, author.id;"
     return db.engine.execute(query)
 
   def get_members_with_alias_and_release_count(self):

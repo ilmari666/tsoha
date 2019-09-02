@@ -15,7 +15,8 @@ def list_authors():
 def view_author(author_id):
   author = Author.query.get(author_id)
   memberships=author.get_memberships()
-  return render_template("authors/view.html", author = author, memberships=memberships)
+  collections=Collection.query.filter_by(author_id=author.id)
+  return render_template("authors/view.html", author = author, memberships=memberships, collections=collections)
 
 
 @app.route("/authors/new")

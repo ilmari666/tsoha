@@ -50,7 +50,7 @@ def collection_create():
   else:
     #author = form.author.data
     name = form.name.data
-    collection = Collection(name=name, author=author.id, group=group_id, uploader=current_user.id)
+    collection = Collection(name=name, author=author.id, group=group.id, uploader=current_user.id)
     collection.author_id=author.id
     collection.filename=filename
     collection.colly=upload

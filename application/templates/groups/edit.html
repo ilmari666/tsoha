@@ -32,7 +32,11 @@
   </tr>
   {% for member in members %}
   <tr>
-    <td>{{ member.name }} </td>
+    <td>
+      <a href="{{ url_for('view_author', author_id=member.id) }}">
+      {{ member.name }} 
+      </a>
+    </td>
     <td>{{ member.tag}} </td>
     <td>{{ member.release_count }} </td>
     <td> 
