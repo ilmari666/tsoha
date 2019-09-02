@@ -9,7 +9,8 @@ from application.groups.forms import GroupForm, AddMemberForm
 
 @app.route("/groups", methods=["GET"])
 def list_groups():
-  groups = Crew.query.all()
+  #groups = Crew.query.all()
+  groups = Crew.get_groups_with_stats()
   return render_template("groups/list.html", groups = groups)
 
 @app.route("/groups", methods=["POST"])

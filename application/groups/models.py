@@ -30,7 +30,10 @@ class Crew(Base):
     query="SELECT a.author_id, release_count, name FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id="+str(self.id)+") AS ms LEFT JOIN Collection AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias AS a ON ms.author_id = a.author_id WHERE a.is_primary=True"
     return db.engine.execute(query)
 
-
+  @staticmethod
+  def get_groups_with_stats():
+    query = text("SELECT g.name, g.abbreviation, g.id, count(c.group_id) AS release_count, count(membership.group_id) AS member_count FROM Crew AS g LEFT JOIN MEMBERSHIP ON g.id=membership.group_id LEFT JOIN collection AS c ON c.group_id==g.id GROUP BY c.group_id;")
+    return db.engine.execute(query)
 
 
 

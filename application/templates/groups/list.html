@@ -4,8 +4,12 @@
 <PRE>
 <p><a href="{{ url_for('group_new_form') }}">Add new group </a></p>
 
--=[GROUP (ABBREVIATION)]======================================================-{% for group in groups %}
- <a href="{{ url_for('view_group', group_id=group.id) }}">{{ group.name.ljust(12, ' ') }}</a> | {{ group.abbreviation }}
---------------+----------------------------------------------------------------{% endfor %}
+-=[GROUP]=======-+-[ABBREVIATION]-+-[RELEASES]-+-[MEMBERS]====================-{% for group in groups %}
+| <a href="{{ url_for('view_group', group_id=group.id) }}">{{
+  group.name.ljust(14, ' ') 
+}}</a> | {{
+  group.abbreviation.ljust(14)
+}} | {{ (group.release_count|string).ljust(10) }} | {{ (group.member_count|string).ljust(28) }} |
+-----------------+----------------+--------------------------------------------{% endfor %}
 </PRE>
 {% endblock %}
