@@ -37,6 +37,18 @@
         {% endfor %}
     </ul>
   </p>
+
+  <p>
+      {{ form.year.label }}:<br/>
+      {{ form.year(value=year) }}
+      <ul>
+      {% for error in form.year.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+      </ul>
+    </p>
+  
+
     <p>
         {{ form.upload.label }}:<br/>
         {{ form.upload }}

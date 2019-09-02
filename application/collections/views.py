@@ -35,6 +35,7 @@ def collection_create():
   filename=request.files["upload"].filename
   upload = request.files["upload"].read()
 
+
   author_id = form.author_id.data
   author=Author.query.get(author_id)
   group_id = form.group_id.data
@@ -47,13 +48,15 @@ def collection_create():
     collection.author_id=author.id
     collection.group_id=form.group.data
     collection.public=form.public.data
+    collection.year=form.year.data
   else:
     #author = form.author.data
     name = form.name.data
-    collection = Collection(name=name, author=author.id, group=group.id, uploader=current_user.id)
+    collection = Collection(name=name, author=author.id, group=group.id, uploader=current_user.id, year=year)
     collection.author_id=author.id
     collection.filename=filename
     collection.colly=upload
+    collection.year=form.year.data
     db.session().add(collection)
 
 

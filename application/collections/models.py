@@ -23,8 +23,11 @@ class Collection(db.Model):
   # release primary group
   group = db.relationship("Crew")
   group_id = db.Column(db.Integer, db.ForeignKey('crew.id'))
+  # release year
+  year=db.Column(db.Integer)
   # visibility
   public = db.Column(db.Boolean, unique=False, default=False)
+
 
   def __init__(self, name, author, group, uploader):
     self.name = name

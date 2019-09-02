@@ -7,6 +7,7 @@ class CollectionForm(FlaskForm):
     name = StringField("Collection name", [validators.Length(min=2)])
     author_id = SelectField("Select existing author", coerce=int)
     group_id = SelectField("Select existing group", coerce=int)
+    year = StringField("Release year")
 
     collection = FileField('text', validators=[
         FileRequired(),
