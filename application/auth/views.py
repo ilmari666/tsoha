@@ -67,7 +67,11 @@ def administrate_access():
 def auth_edit(user_id):
   form=EditForm()
   user=User.query.get(user_id)
-  rolename=  role=Role.query.filter_by(account_id=user_id).first().name
+  role=Role.query.filter_by(account_id=user_id).first()
+  if role == None:
+    rolename="USER"
+  else:
+    rolename=role.name
 
   if (rolename=="ADMIN"):
     form.role.choices = [('ADMIN','Adminstrator'),('USER', 'Regular')]
@@ -86,8 +90,12 @@ def auth_update(user_id):
   rolename=form.role.data
   #just overwrite current role, should be done via user.roles
   role=Role.query.filter_by(account_id=user_id).first()
-  if (role.name is not rolename):
-    role.name=rolename
+  if role is not None:
+    if (role.name is not rolename):
+      role.name=rolename
+  else:
+    role=role(rolename)
+    db.session.add(role)
   db.session().commit()
   return redirect(url_for("administrate_access"))
   

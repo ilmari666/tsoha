@@ -5,7 +5,7 @@
   <pre>
 -=[INFO]=======================================================================-
  {{ collection.filename }} 
- {{ collection.name }} (C) {% if collection.year != None %} | {{ collection.year }}{% endif %}{{ collection.author.name }} {% if collection.group != None %} / {{collection.group.name}}{% endif %}
+ {{ collection.name }} (C) {% if collection.year != None %} {{ collection.year }} {% endif %}{{ collection.author.name }} {% if collection.group != None %} / {{collection.group.name}}{% endif %}
 -==============================================================================-
     {{ content }}
   </pre>
