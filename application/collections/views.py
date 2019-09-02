@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, url_for
 from flask_login import current_user, login_required
 from jinja2 import Markup
+from sqlalchemy import desc
 
 from application import app, db, role_required
 from application.collections.models import Collection
@@ -65,7 +66,8 @@ def collection_create():
 
 @app.route("/collections", methods=["GET"])
 def collections_list():
-  return render_template("collections/list.html", collections = Collection.query.all())
+  collections = Collection.query.order_by(Collection.date_created.desc()).all()
+  return render_template("collections/list.html", collections = collections)
 
 @app.route("/collections/<collection_id>/", methods=["GET"])
 def collections_view(collection_id):
