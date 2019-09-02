@@ -2,21 +2,20 @@
 
 {% block body %}
 
+<PRE>
 {% if current_user.is_authenticated %}
-<a href="{{ url_for('collection_new_form') }} ">Add a collection</a>
+[<a href="{{ url_for('collection_new_form') }} ">Add a collection</a>]
 {% endif %}
-
-
-
-
-
 {% if current_user.is_authenticated and current_user.is_admin() %}
+-=[COLLECTION / AUTHOR)]======================================(HIDE/PUBLISH)=-{% for collection in collections %}
+ <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name.ljust(45, ' ')  }}</a>| {{ collection.author.name.ljust(20) }} {%
+if collection.public
+%}   [<a href="{{ url_for('collection_set_private', collection_id=collection.id) }}">HIDE</a>]{%
+else
+%}[<a href="{{ url_for('collection_set_public', collection_id=collection.id) }}">PUBLISH</a>]{%endif%}
+----------------------------------------------+--------------------------------{% endfor %}
 
-<table>
-    <tr>
-      <th>Name</th>
-      <th>Author</th>
-    </tr>
+<!--
 
     {% for collection in collections %}
       {% if collection.public %}
@@ -45,12 +44,12 @@
     </tr>
     {% endfor %}
   </table>
+  -->
   {% else %}
-  <PRE>
 -=[COLLECTION / AUTHOR)]======================================================-{% for collection in collections %}{% if collection.public %}
  <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name.ljust(45, ' ')  }}</a>| {{ collection.author.name }}</td>
 ----------------------------------------------+--------------------------------{% endif %}{% endfor %}
-    </PRE>
   
   {%endif %}
+</PRE>
 {% endblock %}
