@@ -2,20 +2,18 @@
   
 {% block body %}
 
-  <p>
-    {{ author.name }}:<br/>
-    {% for group in memberships %}
-      <a href="{{ url_for('view_group', group_id=group.id) }}">
-        {{ group.name }}
-      </a>
-    {% endfor %}
-  </p>
-  <p>
-  {% for collection in collections %}
-    {{ collection.name }}
-    <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.filename }}</a>
+<PRE>
+.-=====================================================[AUTHOR INFORMATION]===-.
+| AUTHOR: {{author.name.ljust(68) }} | 
+| TAG: {{ author.tag.ljust(71) }} |
++-------------------------------------------------------------------[GROUPS]---+
+{% for group in memberships %}|<a href="{{ url_for('view_group', group_id=group.id) }}"> {{ group.name.ljust(75) }} </a> |{% endfor %}
++-----------------+-----------------------------------------------[RELEASES]---+{% for collection in collections %}
+| <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.filename.ljust(15) }}</a> | {{ collection.name.ljust(58) }} |{% endfor %}
++-================+===========================================================-'
+:
 
-  {% endfor %}
-  </p>
+
+</PRE>
 {% endblock %}
 
