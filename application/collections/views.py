@@ -35,7 +35,6 @@ def collection_create():
   filename=request.files["upload"].filename
   upload = request.files["upload"].read()
 
-
   author_id = form.author_id.data
   author=Author.query.get(author_id)
   group_id = form.group_id.data
