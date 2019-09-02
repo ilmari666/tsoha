@@ -52,11 +52,11 @@ def collection_create():
   else:
     #author = form.author.data
     name = form.name.data
+    year = form.year.data
     collection = Collection(name=name, author=author.id, group=group.id, uploader=current_user.id, year=year)
     collection.author_id=author.id
     collection.filename=filename
     collection.colly=upload
-    collection.year=form.year.data
     db.session().add(collection)
 
 
