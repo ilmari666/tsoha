@@ -29,11 +29,12 @@ class Collection(db.Model):
   public = db.Column(db.Boolean, unique=False, default=False)
 
 
-  def __init__(self, name, author, group, uploader):
+  def __init__(self, name, author, group, uploader, year):
     self.name = name
     self.author_id = author
     self.group_id = group
     self.uploader_id=uploader
+    self.year=year
   
  
 
