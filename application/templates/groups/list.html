@@ -1,18 +1,11 @@
 {% extends "layout.html" %}
 
 {% block body %}
+<PRE>
 <p><a href="{{ url_for('group_new_form') }}">Add new group </a></p>
 
-  <table>
-    <tr>
-      <th>Group</th>
-      <th>Abbreviation</th>
-    </tr>
-    {% for group in groups %}
-    <tr>
-      <td><a href="{{ url_for('view_group', group_id=group.id) }}">{{ group.name }}</a></td>
-      <td>{{ group.abbreviation }}</td>
-    </tr>
-    {% endfor %}
-  </table>
+-=[GROUP (ABBREVIATION)]======================================================-{% for group in groups %}
+ <a href="{{ url_for('view_group', group_id=group.id) }}">{{ group.name.ljust(12, ' ') }}</a> | {{ group.abbreviation }}
+--------------+----------------------------------------------------------------{% endfor %}
+</PRE>
 {% endblock %}
