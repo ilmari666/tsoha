@@ -94,7 +94,7 @@ def auth_update(user_id):
     if (role.name is not rolename):
       role.name=rolename
   else:
-    role=role(rolename)
+    role=Role(user_id, rolename)
     db.session.add(role)
   db.session().commit()
   return redirect(url_for("administrate_access"))
