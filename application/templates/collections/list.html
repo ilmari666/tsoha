@@ -5,15 +5,17 @@
   <a class="nav-link" href="{{ url_for('collection_new_form') }} ">Add a collection</a>
 </p>
 
-{%if collections is not undefined %}
+{% if collections is not undefined %}
 <table>
     <tr>
       <th>Name</th>
       <th>Author</th>
     </tr>
-    {% for collection in collections %}
 
-          {% if collection.public %}
+
+  {% if current_user.is_authenticated and current_user.is_admin() %}
+    {% for collection in collections %}
+      {% if collection.public %}
           <tr>
               <td><a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name }}</a></td>
           <td>{{ collection.author.name }}</td>
@@ -23,7 +25,7 @@
           </form>
           </td>
         </tr>
-              {% else %}
+      {% else %}
               <tr>
 
             <td>{{ collection.name }}</td>
@@ -34,10 +36,22 @@
             </form>
           </td>
         </tr>
-          {% endif %}  
+      {% endif %}  
       </td>
     </tr>
     {% endfor %}
+    {% else %}
+    {% for collection in collections %}
+
+      {% if collection.public %}
+    <tr>
+        <td><a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name }}</a></td>
+    <td>{{ collection.author.name }}</td>
+  </tr>
+
+      {% endif %}
   </table>
-{% endif %}
+    {% endfor %}
+  {%endif %}
+  {%endif %}
 {% endblock %}
