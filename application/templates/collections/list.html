@@ -7,7 +7,7 @@
 [<a href="{{ url_for('collection_new_form') }} ">Add a collection</a>]
 {% endif %}
 {% if current_user.is_authenticated and current_user.is_admin() %}
--=[COLLECTION / AUTHOR)]======================================(HIDE/PUBLISH)=-{% for collection in collections %}
+-=[COLLECTION / AUTHOR)]======================================(HIDE/PUBLISH)=-{% for collection in paginated.items %}
  <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name.ljust(45, ' ')  }}</a>| {{ collection.author.name.ljust(20) }} {%
 if collection.public
 %}   [<a href="{{ url_for('collection_set_private', collection_id=collection.id) }}">HIDE</a>]{%
@@ -15,9 +15,10 @@ else
 %}[<a href="{{ url_for('collection_set_public', collection_id=collection.id) }}">PUBLISH</a>]{%endif%}
 ----------------------------------------------+--------------------------------{% endfor %}
 {% else %}
--=[COLLECTION / AUTHOR)]======================================================-{% for collection in collections %}{% if collection.public %}
+-=[COLLECTION / AUTHOR)]======================================================-{% for collection in paginated.items %}{% if collection.public %}
  <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name.ljust(45, ' ')  }}</a>| {{ collection.author.name }}</td>
 ----------------------------------------------+--------------------------------{% endif %}{% endfor %}
 {%endif %}
+{% if paginated.has_prev %}<a href="{{ url_for('collections_list') }}?page={{ paginated.prev_num }}">&lt;&lt; PREVIOUS *)</a>{% else %}--------------{% endif %}--------------------------------+----------------------{% if paginated.has_next %}<a href="{{ url_for('collections_list') }}?page={{ paginated.next_num }}">(* NEXT &gt;&gt;</a>{% else %}----------{% endif %}
 </PRE>
 {% endblock %}

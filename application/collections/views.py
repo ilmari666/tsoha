@@ -66,8 +66,16 @@ def collection_create():
 
 @app.route("/collections", methods=["GET"])
 def collections_list():
-  collections = Collection.query.order_by(Collection.date_created.desc()).all()
-  return render_template("collections/list.html", collections = collections)
+  
+  #pythonically set pagination starting from 1
+  try:
+    page=int(request.args.get("page"))
+  except:
+    page=1
+  #display up to 20 items per page
+  paginated = Collection.query.order_by(Collection.date_created.desc()).paginate(page,20,False)
+  total=paginated.total
+  return render_template("collections/list.html", paginated=paginated)
 
 @app.route("/collections/<collection_id>/", methods=["GET"])
 def collections_view(collection_id):
