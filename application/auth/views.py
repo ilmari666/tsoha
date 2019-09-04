@@ -46,10 +46,7 @@ def auth_register():
   user = User(username, email, password)
   db.session().add(user)
   db.session().commit()
-  
-  if username == "AzureDiamond":
-    db.session().add(Role(user.id, "ADMIN"))
-
+  db.session().add(Role(user.id, "USER"))
   db.session().commit()
 
   login_user(user)
@@ -88,7 +85,8 @@ def auth_update(user_id):
   form=EditForm(request.form)
   user.email=form.email.data
   rolename=form.role.data
-  #just overwrite current role, should be done via user.roles
+  #just overwrite existing role instead of utilizing the table structure
+  #for simplified management
   role=Role.query.filter_by(account_id=user_id).first()
   if role is not None:
     if (role.name is not rolename):
@@ -98,9 +96,6 @@ def auth_update(user_id):
     db.session.add(role)
   db.session().commit()
   return redirect(url_for("administrate_access"))
-  
-  
-
   
 @app.route("/auth/logout")
 def auth_logout():
