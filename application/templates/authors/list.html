@@ -1,20 +1,16 @@
 {% extends "layout.html" %}
 
 {% block body %}
-<p><a href="{{ url_for('author_new_form') }}">new author </a></p>
-  <table>
-    <tr>
-      <th>Author</th>
-      <th>Signature</th>
-      <th>edit</th>
-    </tr>
-    {% for author in authors %}
-    <tr>
-      <td>{{ author.name }}</td>
-      <td>{{ author.tag }}</td>
+<PRE>
 
-      <td><a href="{{ url_for('view_author', author_id=author.id) }}">edit </a></td>
-    </tr>
-    {% endfor %}
-  </table>
+--[AUTHOR]------------+-[TAG]-------------------------------------------------------
+{%
+  for author in authors
+%} <a href="{{ url_for('view_author', author_id=author.id) }}">{{ author.name.ljust(21)[0:21] }}</a>| {{ author.tag.ljust(54)[0:54] }}
+----------------------+-------------------------------------------------------------
+{% endfor %}
+{% if current_user.is_authenticated
+%}[<a href="{{ url_for('author_new_form') }}">+ NEW AUTHOR </a>]
+{% endif %}
+</PRE>
 {% endblock %}

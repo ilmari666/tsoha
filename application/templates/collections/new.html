@@ -1,16 +1,13 @@
 {% extends "layout.html" %}
   
 {% block body %}
-{% if collection and collection.id %}
-  <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_update') }}">
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
+  {% if collection and collection.id %}
     {{ form.id }}
-{% else %}
-  <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
-
 {% endif %}
   <p>
     {{ form.name.label }}:<br/>
-    {{ form.name(value=test) }}
+    {{ form.name }}
     <ul>
     {% for error in form.name.errors %}
       <li>{{ error }}</li>
@@ -19,7 +16,7 @@
   </p>
   <p>
     {{ form.author_id.label }}:<br/>
-    {{ form.author_id }}
+    {{ form.author_id(autocomplete="off") }}
     <a href="{{ url_for('author_new_form') }}">or add a new one</a>
     <ul>
         {% for error in form.author_id.errors %}
@@ -29,7 +26,7 @@
   </p>
   <p>
     {{ form.group_id.label }}:<br/>
-    {{ form.group_id }}
+    {{ form.group_id(autocomplete="off") }}
     <a href="{{ url_for('group_new_form') }}">or add a new one</a>
     <ul>
         {% for error in form.group_id.errors %}
@@ -40,7 +37,7 @@
 
   <p>
       {{ form.year.label }}:<br/>
-      {{ form.year(value=year) }}
+      {{ form.year }}
       <ul>
       {% for error in form.year.errors %}
         <li>{{ error }}</li>
@@ -59,10 +56,16 @@
         </ul>
      
       </p>
-        
     <p>
-    <input type="submit" value="Add a new collection"/>
+
+  
+    <input type="submit" value="{% if collection == None %}Add a new collection{% else %}Update collection{%endif%}"/>
   </p>
 </form>
+<p>    
+    {%if collection != None %}
+    <a class="btn btn-primary" role="button" href="{{url_for('collection_delete', collection_id=collection.id)}}">DELETE</a>
+    {% endif %}
+  </p>
 {% endblock %}
 

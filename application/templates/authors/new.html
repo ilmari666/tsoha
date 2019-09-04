@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
   
 {% block body %}
-{% if author and author.id %}
-  <form method="POST" enctype="multipart/form-data" action="{{ url_for('author_update') }}">
-    {{ form.id }}
+<PRE>{% if author and author.id
+%}<form method="POST" enctype="multipart/form-data" action="{{ url_for('author_update') }}">{{ form.id }}
+EDIT AUTHOR
 {% else %}
-  <form method="POST" enctype="multipart/form-data" action="{{ url_for('author_create') }}">
-
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('author_create') }}">
+NEW AUTHOR
 {% endif %}
-<p>New author</p>
   <p>
     {{ form.name.label }}:<br/>
     {{ form.name(value=name) }}
@@ -27,21 +26,10 @@
         {% endfor %}
     </ul>
   </p>
-  <!--
-  <p>
-      {{ form.alias_of.label }}:<br/>
-      {{ form.alias_of(value=[1,2,3]) }}
-      <ul>
-        {% for error in form.alias_of.errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-      </ul>
-   
-    </p>
-    -->
     <p>
     <input type="submit" value="Add a new author"/>
   </p>
+</PRE>
 </form>
 {% endblock %}
 

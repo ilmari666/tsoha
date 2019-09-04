@@ -4,9 +4,10 @@
 <div>
   <pre>
 -=[INFO]=======================================================================-
- {{ collection.filename }} 
- {{ collection.name }} (C) {% if collection.year != None %} {{ collection.year }} {% endif %}<a href="{{ url_for('view_author', author_id=collection.author.id)}}">{{ collection.author.name }}</a> {% if collection.group != None %} / <a href="{{ url_for('view_group', group_id=collection.group.id)}}">{{collection.group.name}}</a>{% endif %}
--==============================================================================-
+ {{ collection.filename }} (C) {% if collection.year != None %} {{ collection.year }} {% endif %}<a href="{{ url_for('view_author', author_id=collection.author.id)}}">{{ collection.author.name }}</a> {% if collection.group != None %} / <a href="{{ url_for('view_group', group_id=collection.group.id)}}">{{collection.group.name}}</a>{% endif %}
+ -
+ {{ collection.name.ljust(72)[0:71] }}{% if current_user.is_authenticated and current_user.is_admin() %} [<a href="{{ url_for('collection_edit_form', collection_id=collection.id)}}">EDIT</a>]{% endif %}
+ ==============================================================================-
     {{ content }}
   </pre>
 </div>
