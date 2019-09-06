@@ -34,6 +34,7 @@ def author_edit_form(author_id):
   form=AuthorForm()
   form.name.default=author.name
   form.tag.default=author.tag
+  form.process()
 
   return render_template("authors/new.html", form=form, author=author)
 
