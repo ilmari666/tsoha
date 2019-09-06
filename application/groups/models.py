@@ -31,9 +31,8 @@ class Crew(Base):
 
   @staticmethod
   def get_groups_with_stats():
-    query = text("SELECT g.name, g.abbreviation, g.id, count(c.group_id) AS release_count, count(membership.group_id) AS member_count FROM Crew AS g LEFT JOIN MEMBERSHIP ON g.id=membership.group_id LEFT JOIN collection AS c ON c.group_id=g.id GROUP BY c.group_id;")
+    query = text("SELECT g.name, g.abbreviation, g.id, count(c.group_id) AS release_count, count(membership.group_id) AS member_count FROM Crew AS g LEFT JOIN MEMBERSHIP ON g.id=membership.group_id LEFT JOIN collection AS c ON c.group_id=g.id  GROUP BY c.group_id, g.name, g.abbreviation, g.id;")
     return db.engine.execute(query)
-
 
 
 class Membership(db.Model):
