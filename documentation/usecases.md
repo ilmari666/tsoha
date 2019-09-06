@@ -109,11 +109,17 @@ DELETE FROM Group WHERE id=?
 ```
 
 *Admin can create memberships
-```INSERT INTO membership (group_id, author_id) VALUES (?,?)```
+```
+INSERT INTO membership (group_id, author_id) VALUES (?,?)
+```
 
 *Admin can delete memberships
-```DELETE FROM membership WHERE group_id = ? AND author_id = ?```
+```
+DELETE FROM membership WHERE group_id = ? AND author_id = ?
+```
 
 *Admin can add authors to groups
-```INSERT INTO membership (group_id, member_id) VALUES (?,?)```
+```
+INSERT INTO membership (group_id, member_id) VALUES (?,?)
+```
 
