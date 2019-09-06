@@ -43,12 +43,25 @@ class Collection(db.Model):
     "count(c.id) as collection_count, "
     "count(DISTINCT a.id) as author_count, "
     "count(DISTINCT u.id) as uploader_count, "
-    "count(DISTINCT g.id) as group_count, "
-    "count(CASE WHEN c.public THEN 1 END) as published_count "
-    "FROM (SELECT * FROM Collection) AS c "
-    "LEFT JOIN Author AS a ON (c.author_id=a.id)" 
+    "count(DISTINCT g.id) as group_count "
+    "FROM (SELECT * FROM Collection WHERE public=true) AS c "
+    "LEFT JOIN Author AS a ON (c.author_id=a.id) " 
     "LEFT JOIN Crew AS g ON (c.group_id=g.id) "
     "LEFT JOIN Account AS u ON (c.uploader_id=u.id) "
     )
     return db.engine.execute(query)
  
+  @staticmethod
+  def get_stats_admin():
+    query = text("SELECT "
+    "count(c.id) as collection_count, "
+    "count(DISTINCT a.id) as author_count, "
+    "count(DISTINCT u.id) as uploader_count, "
+    "count(DISTINCT g.id) as group_count, "
+    "count(CASE WHEN c.public THEN 1 END) as published_count "
+    "FROM (SELECT * FROM Collection) AS c "
+    "LEFT JOIN Author AS a ON (c.author_id=a.id) " 
+    "LEFT JOIN Crew AS g ON (c.group_id=g.id) "
+    "LEFT JOIN Account AS u ON (c.uploader_id=u.id) "
+    )
+    return db.engine.execute(query)

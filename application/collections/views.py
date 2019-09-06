@@ -106,7 +106,11 @@ def collections_list():
     page=1
   #display up to 20 items per page
   paginated = Collection.query.order_by(Collection.date_created.desc()).paginate(page,20,False)
-  stats=Collection.get_stats().first()
+  if (current_user.is_authenticated and current_user.is_admin()):
+    stats=Collection.get_stats_admin().first()
+  else:
+    stats=Collection.get_stats().first()
+
   return render_template("collections/list.html", paginated=paginated, stats=stats)
 
 @app.route("/collections/<collection_id>/", methods=["GET"])

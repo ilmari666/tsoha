@@ -35,7 +35,6 @@ def group_new_form():
   authors = Author.query.all()
   return render_template("groups/new.html", form=form, authors=authors)
 
-
 @app.route("/groups/<group_id>/add_member", methods=["GET"])
 @login_required
 def add_member(group_id):
