@@ -40,6 +40,9 @@ def group_new_form():
 def add_member(group_id):
   form=AddMemberForm(request.args)
   author_id=form.member_id.data
+  if author_id==0:
+    return redirect(url_for("view_group", group_id=group_id))
+
   membership = Membership.query.filter_by(group_id=group_id, author_id=author_id).first()
   if (membership == None):
     membership = Membership(group_id, author_id)
