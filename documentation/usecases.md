@@ -39,6 +39,19 @@ LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g
 *Admin can add priviledge groups
 ```UPDATE Role SET (name=?) WHERE user_id=?```
 
+*Admin can view unpublished collections
+```SELECT 
+    count(c.id) as collection_count, 
+    count(DISTINCT a.id) as author_count, 
+    count(DISTINCT u.id) as uploader_count, 
+    count(DISTINCT g.id) as group_count, 
+    count(CASE WHEN c.public THEN 1 END) as published_count 
+    FROM (SELECT * FROM Collection) AS c 
+    LEFT JOIN Author AS a ON (c.author_id=a.id) 
+    LEFT JOIN Crew AS g ON (c.group_id=g.id)
+    LEFT JOIN Account AS u ON (c.uploader_id=u.id)
+```
+
 *Admin can edit and publish collections
 ```UPDATE Account SET (username, email, public) VALUES (?,?,?)```
 
