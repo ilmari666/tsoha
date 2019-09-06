@@ -56,7 +56,7 @@ def author_update(author_id):
 def delete_author(author_id):
   #delete traces of author
   Membership.query.filter_by(author_id=author_id).delete()
-  Collection.query.filter_by(author_id=author_id.delete())
+  Collection.query.filter_by(author_id=author_id).delete()
   Author.query.filter_by(id=author_id).delete()
 
   db.session.commit()
