@@ -2,17 +2,15 @@
   
 {% block body %}
 <PRE>{% if author and author.id
-%}<form method="POST" enctype="multipart/form-data" action="{{ url_for('author_update') }}">{{ form.id }}
+%}<form method="POST" enctype="multipart/form-data" action="{{ url_for('author_update', author_id=author.id) }}">{{ form.id }}
 EDIT AUTHOR
 {% else %}
 <form method="POST" enctype="multipart/form-data" action="{{ url_for('author_create') }}">
 NEW AUTHOR
 {% endif %}
 {{ form.csrf_token }}
-
-  <p>
-    {{ form.name.label }}:<br/>
-    {{ form.name(value=name) }}
+{{ form.name.label }}:<br/>
+{{ form.name }}
     <ul>
     {% for error in form.name.errors %}
       <li>{{ error }}</li>
@@ -29,7 +27,13 @@ NEW AUTHOR
     </ul>
   </p>
     <p>
+    {% if author and author.id %}
+    <input type="submit" value="Update author"/>
+    <a class="btn btn-primary" role="button" href="{{url_for('delete_author', author_id=author.id)}}">DELETE AUTHOR</a>
+
+    {% else %}
     <input type="submit" value="Add a new author"/>
+    {% endif %}
   </p>
 </PRE>
 </form>

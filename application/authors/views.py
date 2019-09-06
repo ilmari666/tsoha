@@ -22,21 +22,37 @@ def view_author(author_id):
 @app.route("/authors/new")
 @login_required
 def author_new_form():
-  authors = Author.query.all()
   form = AuthorForm()
 #  form.alias_of.choices = [(0, 'Choose existing artist')]+[(a.id, a.name) for a in Author.query.order_by('name')]
   return render_template("authors/new.html", form=form)
 
 @app.route("/authors/edit/<author_id>", methods=["GET"])
-@role_required("admin")
+@role_required("ADMIN")
 def author_edit_form(author_id):
-  author=Author.get(author_id)
+  author = Author.query.get(author_id)
+  
   form=AuthorForm()
+  form.name.default=author.name
+  form.tag.default=author.tag
+
   return render_template("authors/new.html", form=form, author=author)
 
+@app.route("/authors/<author_id>/", methods=["POST"])
+@role_required("ADMIN")
+def author_update(author_id):
+  form =  AuthorForm(request.form)
+  author = Author.query.get(author_id)
+  if not form.validate():
+    return render_template("authors/new.html", author=author, form=form)
+
+  author.name=form.name.data
+  author.tag=form.tag.data
+  db.session().commit()
+  return redirect(url_for("list_authors"))
+
 @app.route("/authors/delete/<author_id>", methods=["GET,POST"])
-@role_required("admin")
-def author_delete(author_id):
+@role_required("ADMIN")
+def delete_author(author_id):
   #delete traces of author
   Membership.query.filter_by(author_id=author_id).delete()
   Collection.query.filter_by(author_id=author_id.delete())
