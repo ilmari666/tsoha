@@ -61,8 +61,6 @@ def collection_create():
   author=Author.query.get(author_id)
   group_id = form.group_id.data
   group = Crew.query.get(group_id)
-  print("????")
-  print (form.id.data)
   #if existing collection
   if (form.id.data != None):
     collection = Collection.query.get(form.id.data)
@@ -71,8 +69,10 @@ def collection_create():
     collection.group_id=form.group_id.data
     collection.public=form.public.data
     collection.year=form.year.data
+    if (filename != ""):
+      collection.filename=filename
+      collection.colly=upload
   else:
-    #author = form.author.data
     name = form.name.data
     year = form.year.data
     collection = Collection(name=name, author=author.id, group=group.id, uploader=current_user.id, year=year)
@@ -80,7 +80,6 @@ def collection_create():
     collection.filename=filename
     collection.colly=upload
     db.session().add(collection)
-
 
   db.session().commit()
   return redirect(url_for("collections_list"))
