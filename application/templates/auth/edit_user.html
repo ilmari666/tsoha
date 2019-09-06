@@ -39,5 +39,10 @@
 	      <input type="submit" value="Update"/>
       </td>
     </tr>
+    <tr>
+      <td colspan="2">
+          <a class="btn btn-primary" role="button" href="{{url_for('remove_account', user_id=user.id)}}">DELETE</a>
+      </td>
+    </tr>
 </form>
 {% endblock %}

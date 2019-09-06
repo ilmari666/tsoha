@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user,  logout_user
 from application import app, db, role_required
 from application.auth.models import User, Role
+from application.collections.models import Collection
 from application.auth.forms import LoginForm, RegistrationForm, EditForm
 
 @app.route("/auth/login", methods = ["GET", "POST"])
@@ -70,10 +71,8 @@ def auth_edit(user_id):
   else:
     rolename=role.name
 
-  if (rolename=="ADMIN"):
-    form.role.choices = [('ADMIN','Adminstrator'),('USER', 'Regular')]
-  else:
-    form.role.choices = [('USER', 'Regular'),('ADMIN','Adminstrator')]
+  form.role.choices = [('USER', 'Regular'),('ADMIN','Adminstrator')]
+  form.role.default = rolename
 
   form.process()
   return render_template("auth/edit_user.html", user=user, form=form)
@@ -95,6 +94,15 @@ def auth_update(user_id):
     role=Role(user_id, rolename)
     db.session.add(role)
   db.session().commit()
+  return redirect(url_for("administrate_access"))
+
+@app.route('/auth/accounts/delete/<user_id>')
+@role_required(role="ADMIN")
+def remove_account(user_id):
+  #remove all traces of user
+  Collection.query.filter_by(uploader_id=user_id).delete()
+  Role.query.filter_by(user_id=user_id.delete())
+  User.query.filter_by(id=user_id).delete()
   return redirect(url_for("administrate_access"))
   
 @app.route("/auth/logout")
