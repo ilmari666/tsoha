@@ -3,6 +3,8 @@
 {% block body %}
   <form method="POST" enctype="multipart/form-data" action="{{ url_for('update_group', group_id=group.id) }}">
     {{ form.id }}
+    {{ form.csrf_token }}
+
 <p>Edit</p>
   <p>
     {{ form.name.label }}:<br/>

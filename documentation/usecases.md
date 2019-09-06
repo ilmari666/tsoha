@@ -2,15 +2,15 @@ Stories:
 ==========
 
 ### Anyone
-*Anyone can view published collections
+*Anyone can list published collections
 ```SELECT * FROM COLLECTIONS WHERE public=True```
 
-*Anyone can view groups with simple stats
+*Anyone can list groups with simple stats
 ```SELECT name, r.abbreviation as abbreviation, count(ms.id) as member_count, r.id as id, release_count 
 FROM (select g.abbreviation as abbreviation, g.name as name, g.id as id, count(c.group_id) as release_count 
 FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS  ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation```
 
-*Anyone can view authors
+*Anyone can list authors
 ```SELECT * FROM author```
 
 *Anyone can get statistics about collections
@@ -39,7 +39,7 @@ LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g
 *Admin can add priviledge groups
 ```UPDATE Role SET (name=?) WHERE user_id=?```
 
-*Admin can view unpublished collections
+*Admin can list unpublished collections
 ```SELECT 
     count(c.id) as collection_count, 
     count(DISTINCT a.id) as author_count, 

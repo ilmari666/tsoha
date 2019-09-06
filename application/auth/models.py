@@ -14,8 +14,6 @@ class User(Base):
   email = db.Column(db.String(144), nullable=False, unique=True)
   password = db.Column(db.String(144), nullable=False)
   roles = db.relationship("Role")
-  #uploads = db.relationship("Collection", backref="uploader", lazy=True)
-#  uploader_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
   def __init__(self, username, email, password):
     self.username = username

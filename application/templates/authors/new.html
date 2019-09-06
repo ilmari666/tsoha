@@ -8,6 +8,8 @@ EDIT AUTHOR
 <form method="POST" enctype="multipart/form-data" action="{{ url_for('author_create') }}">
 NEW AUTHOR
 {% endif %}
+{{ form.csrf_token }}
+
   <p>
     {{ form.name.label }}:<br/>
     {{ form.name(value=name) }}
