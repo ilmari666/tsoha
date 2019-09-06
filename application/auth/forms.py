@@ -27,7 +27,7 @@ class RegistrationForm(FlaskForm):
    
 class EditForm(FlaskForm):
   username = StringField("Username", [validators.Length(min=2)])
-  email = EmailField("Email", [validators.DataRequired("Please enter an e-mail address."), validators.Email("Please enter a valid e-mail address.")])
+  email = EmailField("Email", [validators.Email()])
   role = SelectField("Access group:")
   class Meta:
     csrf = True

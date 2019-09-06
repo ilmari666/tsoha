@@ -74,17 +74,16 @@ def auth_edit(user_id):
   form.role.default = rolename
 
   form.process()
-  return render_template("auth/edit_user.html", user=user, form=form)
+  return render_template("auth/edit_user.html", user=user, form=form, rolename=rolename)
 
 @app.route("/auth/accounts/<user_id>", methods = ["POST"])
 @role_required(role="ADMIN")
 def auth_update(user_id):
   user=User.query.get(user_id)
   form=EditForm(request.form)
+  
   form.role.choices = [('USER', 'Regular'),('ADMIN','Adminstrator')]
-  form.process()
   if not form.validate():
-    print("not validate !!")
     return render_template("auth/edit_user.html", user=user, form=form)
 
   user.email=form.email.data
