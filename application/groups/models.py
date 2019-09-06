@@ -33,7 +33,7 @@ class Crew(Base):
   def get_groups_with_stats():
     query = text("SELECT name, r.abbreviation as abbreviation, count(ms.id) as member_count, r.id as id, release_count "
     "FROM (select g.abbreviation as abbreviation, g.name as name, g.id as id, count(c.group_id) as release_count "
-    "FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation;"
+    "FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation;")
     return db.engine.execute(query)
 
 
