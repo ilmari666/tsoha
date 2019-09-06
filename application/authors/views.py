@@ -51,7 +51,7 @@ def author_update(author_id):
   db.session().commit()
   return redirect(url_for("list_authors"))
 
-@app.route("/authors/delete/<author_id>", methods=["GET,POST"])
+@app.route("/authors/delete/<author_id>", methods=["GET","POST"])
 @role_required("ADMIN")
 def delete_author(author_id):
   #delete traces of author
