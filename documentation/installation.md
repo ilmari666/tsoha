@@ -3,6 +3,8 @@ Setting up
 Requirements:
 Python3, PIP
 
+Python distribution is available for a [wide variety of platforms](https://www.python.org/downloads/).
+
 Install other dependencies 
 "pip install --user --requirement requirements.txt"
 
@@ -12,6 +14,8 @@ export SECRET_KEY="ananassalasananas"
 
 Run with
 "python3 run.py" which runs an instance at port 5000
+
+Navigate your browser to the address you are hosting the application for example localhost:5000
 
 After registering a user you can manually grant the user ADMIN priviledges manually with the SQL query
 INSERT INTO role (role, user_id) VALUES ("ADMIN", 1)
@@ -30,5 +34,6 @@ Setting environmental variables in Heroku is done as follows
 "heroku config:set HEROKU=1"
 sets the environmental variable HEROKU to value 1
 
+If you are unfamiliar with Heroku there's a good tutorial here to get you started [here](https://devcenter.heroku.com/articles/git)
 
 
