@@ -1,18 +1,67 @@
 Stories:
 ==========
 
-Anyone can view collections
+Anyone can view published collections
+SELECT * FROM COLLECTIONS WHERE public=True
+
+Anyone can view groups
+SELECT * FROM CREW
+
+Anyone can view authors
+SELECT * FROM author
+
+Anyone can get statistics about collections
+SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, 
+count(DISTINCT g.id) as group_count FROM (SELECT * FROM Collection WHERE public=true) AS c 
+LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)
+
 Anyone can register.
+INSERT INTO Accounts (username, password, email) VALUES (?,?,?)
 
 Registered user can authenticate.
+SELECT USER FROM Accounts WHERE USERNAME=username AND 
 
 Authenticated user can create new groups
+INSERT INTO Crew (name, abbreviation) VALUES (?,?)
+
 Authenticated user can upload new collections
+INSERT INTO Collection (name, author_id, filename, uploader_id, colly, group_id) VALUES (?,?,?,?,?,?)
+
 Authenticated user can logout
 
 Admin can add priviledge groups
-Admin can edit and delete and publish collections
+UPDATE Role SET (name=?) WHERE user_id=?
+
+Admin can edit and publish collections
+UPDATE Account SET (username, email, public) VALUES (?, ?, ?)
+
+Admin can delete collections
+DELETE FROM Account WHERE id = ?
+
 Admin can edit and delete users
-Admin can edit and delete authors
-Admin can edit and delete groups
+UPDATE Account SET (username, email) VALUES (?, ?) WHERE id = ?
+DELETE FROM Account WHERE id = ?
+DELETE FROM Role WHERE user_id = ?
+DELETE FROM Collections WHERE uploader_id = ?
+
+Admin can edit authors
+UPDATE Author SET (name, tag) VALUES (?, ?) WHERE id = ?
+
+Admin can delete authors
+DELETE FROM Author WHERE id = ?
+
+Admin can edit groups
+UPDATE GROUP SET (name, abbreviation) VALUES (?, ?) WHERE id = ?
+
+Admin can delete groups
+DELETE FROM Group WHERE id = ?
+
+Admin can create memberships
+INSERT INTO membership (group_id, author_id) VALUES (?, ?)
+
+Admin can delete memberships
+DELETE FROM membership WHERE group_id = ? AND author_id = ?
+
 Admin can add authors to groups
+INSERT INTO membership (group_id, member_id) VALUES (?, ?)
+
