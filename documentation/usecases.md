@@ -3,70 +3,110 @@ Stories:
 
 ### Anyone
 *Anyone can list published collections
-```SELECT * FROM COLLECTIONS WHERE public=True```
+```
+SELECT * FROM COLLECTIONS WHERE public=True
+```
 
 *Anyone can list groups with simple stats
-```SELECT name, r.abbreviation as abbreviation, count(ms.id) as member_count, r.id as id, release_count FROM (select g.abbreviation as abbreviation, g.name as name, g.id as id, count(c.group_id) as release_count  FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS  ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation```
+```
+SELECT name, r.abbreviation as abbreviation, count(ms.id) as member_count, r.id as id, release_count FROM (select g.abbreviation as abbreviation, g.name as name, g.id as id, count(c.group_id) as release_count  FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS  ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation
+```
 
 *Anyone can list authors
-```SELECT * FROM author```
+```
+SELECT * FROM author
+```
 
 Anyone can view an author
-```SELECT Author WHERE id=?```
+```
+SELECT Author WHERE id=?
+```
 
 Anyone can view a group
-```SELECT a.author_id, release_count, name FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id=? AS ms LEFT JOIN (SELECT * FROM Collection WHERE public=true) AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias AS a ON ms.author_id = a.author_id WHERE a.is_primary=True```
+```
+SELECT a.author_id, release_count, name FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id=? AS ms LEFT JOIN (SELECT * FROM Collection WHERE public=true) AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias AS a ON ms.author_id = a.author_id WHERE a.is_primary=True
+```
 
 Anyone can view a published collection
-```SELECT Collection WHERE id=?```
+```
+SELECT Collection WHERE id=?
+```
 
 *Anyone can get statistics about collections
-```SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, count(DISTINCT g.id) as group_count FROM (SELECT * FROM Collection WHERE public=true) AS c LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)```
+```
+SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, count(DISTINCT g.id) as group_count FROM (SELECT * FROM Collection WHERE public=true) AS c LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)
+```
 
 *Anyone can register.
-```INSERT INTO Accounts (username, password, email) VALUES (?,?,?)```
+```
+INSERT INTO Accounts (username, password, email) VALUES (?,?,?)
+```
 
 ### Registered user
 
 *Registered user can authenticate.
-```SELECT USER FROM Accounts WHERE USERNAME=? AND password=?``` 
+```
+SELECT USER FROM Accounts WHERE USERNAME=? AND password=?
+``` 
 
 ### Authenticated user
 *Authenticated user can create new groups
-```INSERT INTO Crew (name, abbreviation) VALUES (?,?)```
+```
+INSERT INTO Crew (name, abbreviation) VALUES (?,?)
+```
 
 *Authenticated user can upload new collections
-```INSERT INTO Collection (name, author_id, filename, uploader_id, colly, group_id) VALUES (?,?,?,?,?,?)```
+```
+INSERT INTO Collection (name, author_id, filename, uploader_id, colly, group_id) VALUES (?,?,?,?,?,?)
+```
 
 *Authenticated user can logout
 
 ### Authenticated user with admin role
 *Admin can add priviledge groups
-```UPDATE Role SET (name=?) WHERE user_id=?```
+```
+UPDATE Role SET (name=?) WHERE user_id=?
+```
 
 *Admin can list unpublished collections
-```SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, count(DISTINCT g.id) as group_count, count(CASE WHEN c.public THEN 1 END) as published_count FROM (SELECT * FROM Collection) AS c LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)```
+```
+SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, count(DISTINCT g.id) as group_count, count(CASE WHEN c.public THEN 1 END) as published_count FROM (SELECT * FROM Collection) AS c LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)
+```
 
 *Admin can edit and publish collections
-```UPDATE Account SET (username, email, public) VALUES (?,?,?)```
+```
+UPDATE Account SET (username, email, public) VALUES (?,?,?)
+```
 
 *Admin can delete collections
-```DELETE FROM Account WHERE id = ?```
+```
+DELETE FROM Account WHERE id = ?
+```
 
 *Admin can edit and delete users
-```UPDATE Account SET (username, email) VALUES (?,?) WHERE id =?; DELETE FROM Account WHERE id=?; DELETE FROM Role WHERE user_id=?; DELETE FROM Collections WHEREuploader_id=?;```
+```
+UPDATE Account SET (username, email) VALUES (?,?) WHERE id =?; DELETE FROM Account WHERE id=?; DELETE FROM Role WHERE user_id=?; DELETE FROM Collections WHERE uploader_id=?;
+```
 
 *Admin can edit authors
-```UPDATE Author SET (name, tag) VALUES (?, ?) WHERE id = ?```
+```
+UPDATE Author SET (name, tag) VALUES (?, ?) WHERE id = ?
+```
 
 *Admin can delete authors
-```DELETE FROM Author WHERE id=?```
+```
+DELETE FROM Author WHERE id=?
+```
 
 *Admin can edit groups
-```UPDATE GROUP SET (name, abbreviation) VALUES (?,?) WHERE id = ?```
+```
+UPDATE GROUP SET (name, abbreviation) VALUES (?,?) WHERE id = ?
+```
 
 *Admin can delete groups
-```DELETE FROM Group WHERE id=?```
+```
+DELETE FROM Group WHERE id=?
+```
 
 *Admin can create memberships
 ```INSERT INTO membership (group_id, author_id) VALUES (?,?)```
