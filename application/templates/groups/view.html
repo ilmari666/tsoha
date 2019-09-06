@@ -2,8 +2,18 @@
   
 {% block body %}
 
-  <p>
-    {{ group.name }}:<br/>
-  </p>
+<PRE>
+
+  {{ group.name }} ({{ group.abbreviation }})
+  -=[MEMBERS]=================================================================-{% for member in members %}
+  <a href="{{ url_for('view_author', author_id=member.id) }}">{{ member.name }}</a> ({{ member.tag }}) - {{ member.release_count }} releases
+  -----------------------------------------------------------------------------
+  {% endfor %}
+
+  {% if current_user.is_authenticated and current_user.is_admin() %}
+  [<a href="{{ url_for('edit_group', group_id=group.id) }}">EDIT</a>]
+  {% endif %}
+  
+</PRE>
 {% endblock %}
 

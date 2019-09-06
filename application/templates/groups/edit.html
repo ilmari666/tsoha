@@ -42,7 +42,7 @@
     <td>{{ member.tag}} </td>
     <td>{{ member.release_count }} </td>
     <td> 
-       <a href="{{ url_for('remove_member', group_id=group.id) }}?member_id={{member.author_id}}">Remove</a>
+       <a href="{{ url_for('remove_member', group_id=group.id) }}?member_id={{member.id}}">Remove</a>
     </form>
       </td>
   </tr>

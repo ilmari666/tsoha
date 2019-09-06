@@ -34,6 +34,6 @@ for collection in paginated.items
 {% if is_admin %}
 {{ stats.published_count }} published / {{ stats.collection_count}} total
 {% else %}
-{{ stats.published_count }} collections
+{% if stats.collection_count == 1%}One collection {% else %}{{ stats.collection_count }} collections{% endif %}
 {% endif %}
 {% endblock %}

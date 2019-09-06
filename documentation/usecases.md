@@ -13,6 +13,15 @@ FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON 
 *Anyone can list authors
 ```SELECT * FROM author```
 
+Anyone can view an author
+```SELECT Author WHERE id=?```
+
+Anyone can view a group
+```SELECT a.author_id, release_count, name FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id=? AS ms LEFT JOIN (SELECT * FROM Collection WHERE public=true) AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias AS a ON ms.author_id = a.author_id WHERE a.is_primary=True```
+
+Anyone can view a published collection
+SELECT Collection WHERE id=?
+
 *Anyone can get statistics about collections
 ```SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, 
 count(DISTINCT g.id) as group_count FROM (SELECT * FROM Collection WHERE public=true) AS c 

@@ -81,7 +81,10 @@ def auth_edit(user_id):
 def auth_update(user_id):
   user=User.query.get(user_id)
   form=EditForm(request.form)
+  form.role.choices = [('USER', 'Regular'),('ADMIN','Adminstrator')]
+  form.process()
   if not form.validate():
+    print("not validate !!")
     return render_template("auth/edit_user.html", user=user, form=form)
 
   user.email=form.email.data

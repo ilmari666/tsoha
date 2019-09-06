@@ -84,6 +84,9 @@ def collection_create():
 @role_required("ADMIN")
 def collection_update(collection_id):
   form = CollectionForm(request.form)
+  form.author_id.choices = [(0, 'Choose artist')]+[(a.id, a.name) for a in Author.query.all()]
+  form.group_id.choices = [(0, 'Choose group')]+[(c.id, c.name) for c in Crew.query.all()]
+
   if not form.validate():
     return render_template(
       "collections/new.html",

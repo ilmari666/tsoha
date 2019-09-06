@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
-from application import app, db
+from application import app, db, role_required
 from application.groups.models import Crew
 from application.groups.models import Membership
 from application.authors.models import Author
@@ -11,7 +11,7 @@ from application.groups.forms import GroupForm, AddMemberForm
 def list_groups():
   #groups = Crew.query.all()
   groups = Crew.get_groups_with_stats()
-  return render_template("groups/list.html", groups = groups)
+  return render_template("groups/list.html", groups=groups)
 
 @app.route("/groups", methods=["POST"])
 @login_required
@@ -67,14 +67,11 @@ def remove_member(group_id):
   return redirect(url_for("view_group", group_id=group_id))
 
 
-
-@app.route("/groups/<group_id>", methods=["GET"])
-@login_required
-def view_group(group_id):
+@app.route("/groups/edit/<group_id>", methods=["GET"])
+@role_required("ADMIN")
+def edit_group(group_id):
   group_id=int(group_id)
   group = Crew.query.get(group_id)
-#  members = Membership.query.filter_by(group_id=group_id).with_entities(Membership.author_id)
-#  non_members = Author.query.all()
   members = group.get_members_with_release_count()
   form=GroupForm()
   non_members= group.get_non_members()
@@ -82,6 +79,15 @@ def view_group(group_id):
   memberform.member_id.choices = [(0, 'Choose existing artist')]+[(a.id, a.name) for a in non_members]
 
   return render_template("groups/edit.html", form=form, memberform=memberform, group=group, authors=non_members, members=members)
+
+
+
+@app.route("/groups/<group_id>", methods=["GET"])
+def view_group(group_id):
+  group_id=int(group_id)
+  group = Crew.query.get(group_id)
+  members = group.get_members_with_release_count()
+  return render_template("groups/view.html", group=group, members=members)
 
 
 @app.route("/groups/<group_id>", methods=["POST"])
