@@ -31,7 +31,6 @@ def auth_register():
     return render_template("auth/registrationform.html", form = form)
 
   if not form.validate():
-    print(form)
     flash(form.errors)
     flash(form.validate())
     return render_template("auth/registrationform.html", form = form)
@@ -82,6 +81,9 @@ def auth_edit(user_id):
 def auth_update(user_id):
   user=User.query.get(user_id)
   form=EditForm(request.form)
+  if not form.validate():
+    return render_template("auth/edit_user.html", user=user, form=form)
+
   user.email=form.email.data
   rolename=form.role.data
   #just overwrite existing role instead of utilizing the table structure

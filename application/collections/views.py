@@ -52,7 +52,17 @@ def collection_delete(collection_id):
 @login_required
 def collection_create():
   form =  CollectionForm(request.form)
+  form.author_id.choices = [(0, 'Choose artist')]+[(a.id, a.name) for a in Author.query.all()]
+  form.group_id.choices = [(0, 'Choose group')]+[(c.id, c.name) for c in Crew.query.all()]
 
+  filename=request.files["upload"].filename
+  upload = request.files["upload"].read()
+  validated=form.validate()
+  if filename == "":
+    form.upload.errors=["File required"]
+    validated=False
+  if not validated:
+    return render_template("collections/new.html", form=form)
   filename=request.files["upload"].filename
   upload = request.files["upload"].read()
 
@@ -73,7 +83,13 @@ def collection_create():
 @app.route("/collections/<collection_id>", methods=["POST"])
 @role_required("ADMIN")
 def collection_update(collection_id):
-  form =  CollectionForm(request.form)
+  form = CollectionForm(request.form)
+  if not form.validate():
+    return render_template(
+      "collections/new.html",
+      form=form,
+      collection=Collection.query.get(int(collection_id))
+    )
 
   filename=request.files["upload"].filename
   upload = request.files["upload"].read()

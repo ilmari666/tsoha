@@ -1,5 +1,10 @@
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
+
+
 app = Flask(__name__,static_url_path='/static')
+csrf = CSRFProtect(app)
+#csrf.init_app(app)
 
 #Upload folder for collections 
 UPLOAD_FOLDER="upload"

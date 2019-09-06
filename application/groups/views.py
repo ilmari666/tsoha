@@ -18,6 +18,10 @@ def list_groups():
 def group_create():
   #create group if unique name. forward to existing groups view
   form=GroupForm(request.form)
+  if not form.validate():
+    authors = Author.query.all()
+    return render_template("groups/new.html", form=form, authors=authors)
+
   name=form.name.data
   abbreviation=form.abbreviation.data
   group=Crew.query.filter_by(name=name).first()
@@ -57,7 +61,6 @@ def remove_member(group_id):
   author_id=form.member_id.data
   membership=Membership.query.filter_by(group_id=group_id, author_id=author_id).first()
   if (membership is not None):
-    print("remove")
     db.session().delete(membership)
     db.session().commit()
     
@@ -85,6 +88,10 @@ def view_group(group_id):
 @login_required
 def update_group(group_id):
   form=GroupForm(request.form)
+  if not form.validate():
+    authors = Author.query.all()
+    return render_template("groups/new.html", form=form, authors=authors)
+
   name=form.name.data
   abbreviation=form.abbreviation.data
   group=Crew.query.get(group_id)

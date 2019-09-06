@@ -9,6 +9,8 @@
   <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
 
 {% endif %}
+{{ form.csrf_token }}
+{{ form.hidden_tag() }}
   <p>
     {{ form.name.label }}:<br/>
     {{ form.name }}
