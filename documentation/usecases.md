@@ -6,9 +6,7 @@ Stories:
 ```SELECT * FROM COLLECTIONS WHERE public=True```
 
 *Anyone can list groups with simple stats
-```SELECT name, r.abbreviation as abbreviation, count(ms.id) as member_count, r.id as id, release_count 
-FROM (select g.abbreviation as abbreviation, g.name as name, g.id as id, count(c.group_id) as release_count 
-FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS  ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation```
+```SELECT name, r.abbreviation as abbreviation, count(ms.id) as member_count, r.id as id, release_count FROM (select g.abbreviation as abbreviation, g.name as name, g.id as id, count(c.group_id) as release_count  FROM Crew as g LEFT JOIN (SELECT * FROM Collection WHERE public=true ) AS c  ON g.id=c.group_id GROUP BY c.group_id, g.name, g.id) AS r LEFT JOIN Membership AS  ms ON r.id = ms.group_id GROUP BY r.name, r.id, r.release_count, ms.group_id, r.abbreviation```
 
 *Anyone can list authors
 ```SELECT * FROM author```
@@ -20,12 +18,10 @@ Anyone can view a group
 ```SELECT a.author_id, release_count, name FROM (SELECT ms.author_id AS author_id, COUNT(ms.author_id) AS release_count FROM (SELECT author_id FROM membership WHERE group_id=? AS ms LEFT JOIN (SELECT * FROM Collection WHERE public=true) AS c ON ms.author_id = c.author_id GROUP BY ms.author_id) LEFT JOIN alias AS a ON ms.author_id = a.author_id WHERE a.is_primary=True```
 
 Anyone can view a published collection
-SELECT Collection WHERE id=?
+```SELECT Collection WHERE id=?```
 
 *Anyone can get statistics about collections
-```SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, 
-count(DISTINCT g.id) as group_count FROM (SELECT * FROM Collection WHERE public=true) AS c 
-LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)```
+```SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, count(DISTINCT g.id) as group_count FROM (SELECT * FROM Collection WHERE public=true) AS c LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)```
 
 *Anyone can register.
 ```INSERT INTO Accounts (username, password, email) VALUES (?,?,?)```
@@ -49,17 +45,7 @@ LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g
 ```UPDATE Role SET (name=?) WHERE user_id=?```
 
 *Admin can list unpublished collections
-```SELECT 
-    count(c.id) as collection_count, 
-    count(DISTINCT a.id) as author_count, 
-    count(DISTINCT u.id) as uploader_count, 
-    count(DISTINCT g.id) as group_count, 
-    count(CASE WHEN c.public THEN 1 END) as published_count 
-    FROM (SELECT * FROM Collection) AS c 
-    LEFT JOIN Author AS a ON (c.author_id=a.id) 
-    LEFT JOIN Crew AS g ON (c.group_id=g.id)
-    LEFT JOIN Account AS u ON (c.uploader_id=u.id)
-```
+```SELECT count(c.id) as collection_count, count(DISTINCT a.id) as author_count, count(DISTINCT u.id) as uploader_count, count(DISTINCT g.id) as group_count, count(CASE WHEN c.public THEN 1 END) as published_count FROM (SELECT * FROM Collection) AS c LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g.id) LEFT JOIN Account AS u ON (c.uploader_id=u.id)```
 
 *Admin can edit and publish collections
 ```UPDATE Account SET (username, email, public) VALUES (?,?,?)```
@@ -68,11 +54,8 @@ LEFT JOIN Author AS a ON (c.author_id=a.id) LEFT JOIN Crew AS g ON (c.group_id=g
 ```DELETE FROM Account WHERE id = ?```
 
 *Admin can edit and delete users
-```UPDATE Account SET (username, email) VALUES (?,?) WHERE id =?
-DELETE FROM Account WHERE id=?
-DELETE FROM Role WHERE user_id=?
-DELETE FROM Collections WHERE uploader_id=?
-```
+```UPDATE Account SET (username, email) VALUES (?,?) WHERE id =?; DELETE FROM Account WHERE id=?; DELETE FROM Role WHERE user_id=?; DELETE FROM Collections WHEREuploader_id=?;```
+
 *Admin can edit authors
 ```UPDATE Author SET (name, tag) VALUES (?, ?) WHERE id = ?```
 
