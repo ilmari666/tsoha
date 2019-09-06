@@ -2,9 +2,16 @@
 
 {% block body %}
 
-<PRE>
+{##this is a bit confusing and messy as every white space inside PRE-tags is meaningful##}
+
+
 {% set first=True %}
-{% if current_user.is_authenticated and current_user.is_admin() %}
+{% if current_user.is_authenticated and current_user.is_admin()%}
+{%  set is_admin=True %}
+{% endif %}
+
+<PRE>
+{% if is_admin %}
 -=[COLLECTION / AUTHOR)]======================================(HIDE/PUBLISH)=-{% for collection in paginated.items %}
  <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name.ljust(45, ' ')[0:45]  }}</a>| {{ collection.author.name.ljust(20)[0:20] }} {%
 if collection.public
@@ -16,12 +23,17 @@ if collection.public
 for collection in paginated.items
 %}{%
     if collection.public %}{% if first %}{%set first=False 
-      %}{%else%}----------------------------------------------+--------------------------------{%endif%}
+      %}{% else %}----------------------------------------------+--------------------------------{% endif %}
  <a href="{{ url_for('collections_view', collection_id=collection.id) }}">{{ collection.name.ljust(45, ' ')[0:45]  }}</a>| {{ collection.author.name.ljust(20)[0:20] }}
 {% endif %}{% endfor %}{%endif %}{%
   if paginated.has_prev %}<a href="{{ url_for('collections_list') }}?page={{ paginated.prev_num }}">&lt;&lt; PREVIOUS *)</a>{% else %}--------------{% endif %}--------------------------------+----------------------{% if paginated.has_next %}<a href="{{ url_for('collections_list') }}?page={{ paginated.next_num }}">(* NEXT &gt;&gt;</a>{% else %}----------{% endif %}
 {% if current_user.is_authenticated %}
-[<a href="{{ url_for('collection_new_form') }} ">Add a collection</a>]
+[<a href="{{ url_for('collection_new_form') }} ">+ NEW COLLECTION</a>]
 {% endif %}
 </PRE>
+{% if is_admin %}
+{{ stats.published_count }} published / {{ stats.collection_count}} total
+{% else %}
+{{ stats.published_count }} collections
+{% endif %}
 {% endblock %}

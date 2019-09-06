@@ -48,7 +48,6 @@ def collection_delete(collection_id):
   db.session().commit()
   return redirect(url_for("collections_list"))
 
-
 @app.route("/collections", methods=["POST"])
 @login_required
 def collection_create():
@@ -58,28 +57,41 @@ def collection_create():
   upload = request.files["upload"].read()
 
   author_id = form.author_id.data
-  author=Author.query.get(author_id)
   group_id = form.group_id.data
-  group = Crew.query.get(group_id)
-  #if existing collection
-  if (form.id.data != None):
-    collection = Collection.query.get(form.id.data)
-    collection.name=form.name.data
-    collection.author_id=author.id
-    collection.group_id=form.group_id.data
-    collection.public=form.public.data
-    collection.year=form.year.data
-    if (filename != ""):
-      collection.filename=filename
-      collection.colly=upload
-  else:
-    name = form.name.data
-    year = form.year.data
-    collection = Collection(name=name, author=author.id, group=group.id, uploader=current_user.id, year=year)
-    collection.author_id=author.id
+  name = form.name.data
+  year = form.year.data
+
+  collection = Collection(name=name, author=author_id, group=group_id, uploader=current_user.id, year=year)
+  collection.filename=filename
+  collection.colly=upload
+  db.session().add(collection)
+
+  db.session().commit()
+  return redirect(url_for("collections_list"))
+
+
+@app.route("/collections/<collection_id>", methods=["POST"])
+@role_required("ADMIN")
+def collection_update(collection_id):
+  form =  CollectionForm(request.form)
+
+  filename=request.files["upload"].filename
+  upload = request.files["upload"].read()
+
+  author_id = form.author_id.data
+  group_id = form.group_id.data
+  name = form.name.data
+  year = form.year.data
+
+  collection = Collection.query.get(collection_id)
+  collection.name=name
+  collection.author_id=author_id
+  collection.group_id=group_id
+  collection.public=form.public.data
+  collection.year=year
+  if (filename != ""):
     collection.filename=filename
     collection.colly=upload
-    db.session().add(collection)
 
   db.session().commit()
   return redirect(url_for("collections_list"))
@@ -87,15 +99,15 @@ def collection_create():
 
 @app.route("/collections", methods=["GET"])
 def collections_list():
-  
-  #pythonically set pagination starting from 1
+  #pythonically set pagination to start from 1
   try:
     page=int(request.args.get("page"))
   except:
     page=1
   #display up to 20 items per page
   paginated = Collection.query.order_by(Collection.date_created.desc()).paginate(page,20,False)
-  return render_template("collections/list.html", paginated=paginated)
+  stats=Collection.get_stats().first()
+  return render_template("collections/list.html", paginated=paginated, stats=stats)
 
 @app.route("/collections/<collection_id>/", methods=["GET"])
 def collections_view(collection_id):

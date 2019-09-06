@@ -22,7 +22,6 @@ class Crew(Base):
 
   def get_members_with_release_count(self):
     # get member details including amount of collections credited
-
     query="select author.id,  author.name, author.tag, count(collection.author_id) as release_count from (select * from membership where group_id="+str(self.id)+") as ms LEFT JOIN author on author.id=ms.author_id LEFT JOIN collection ON collection.author_id=ms.author_id GROUP BY collection.author_id, author.name, author.tag, author.id;"
     return db.engine.execute(query)
 
@@ -32,7 +31,7 @@ class Crew(Base):
 
   @staticmethod
   def get_groups_with_stats():
-    query = text("SELECT g.name, g.abbreviation, g.id, count(c.group_id) AS release_count, count(membership.group_id) AS member_count FROM Crew AS g LEFT JOIN MEMBERSHIP ON g.id=membership.group_id LEFT JOIN collection AS c ON c.group_id==g.id GROUP BY c.group_id;")
+    query = text("SELECT g.name, g.abbreviation, g.id, count(c.group_id) AS release_count, count(membership.group_id) AS member_count FROM Crew AS g LEFT JOIN MEMBERSHIP ON g.id=membership.group_id LEFT JOIN collection AS c ON c.group_id=g.id GROUP BY c.group_id;")
     return db.engine.execute(query)
 
 

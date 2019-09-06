@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
   
 {% block body %}
-<form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
+
   {% if collection and collection.id %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_update', collection.id) }}">
     {{ form.id }}
+{% else %}
+  <form method="POST" enctype="multipart/form-data" action="{{ url_for('collection_create') }}">
+
 {% endif %}
   <p>
     {{ form.name.label }}:<br/>
@@ -59,13 +63,13 @@
     <p>
 
   
-    <input type="submit" value="{% if collection == None %}Add a new collection{% else %}Update collection{%endif%}"/>
+    <input type="submit" value="{% if collection != None %}Add a new collection{% else %}Update collection{%endif%}"/>
   </p>
 </form>
+{% if collection is defined %}
 <p>    
-    {%if collection != None %}
-    <a class="btn btn-primary" role="button" href="{{url_for('collection_delete', collection_id=collection.id)}}">DELETE</a>
-    {% endif %}
-  </p>
+  <a class="btn btn-primary" role="button" href="{{url_for('collection_delete', collection_id=collection.id)}}">DELETE</a>
+</p>
+{% endif %}
 {% endblock %}
 
