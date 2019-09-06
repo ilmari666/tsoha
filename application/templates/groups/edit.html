@@ -52,7 +52,7 @@
 
 </p>
 
-<a class="btn btn-primary" role="button" href="{{url_for('delete_group', group_id=user.id)}}">DELETE GROUP</a>
+<a class="btn btn-primary" role="button" href="{{url_for('delete_group', group_id=group.id)}}">DELETE GROUP</a>
 
 <p>
   <form method="GET" enctype="multipart/form-data" action="{{ url_for('add_member', group_id=group.id) }}">

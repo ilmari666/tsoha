@@ -107,3 +107,11 @@ def update_group(group_id):
 
   return redirect(url_for("view_group", group_id=group.id))
 
+@app.route("/groups/delete/<group_id>", methods=["GET","POST"])
+@role_required("ADMIN")
+def delete_group(group_id):
+  Membership.query.filter_by(group_id=group_id).delete()
+  Crew.query.filter_by(id=group_id).delete()
+
+  db.session.commit()
+  return redirect(url_for("list_groups"))
