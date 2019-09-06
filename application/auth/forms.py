@@ -7,7 +7,7 @@ class LoginForm(FlaskForm):
   password = PasswordField("Password")
   
   class Meta:
-    csrf = False
+    csrf = True
 
 class RegistrationForm(FlaskForm):
   username = StringField("Username", [validators.Length(min=2)])
@@ -23,9 +23,11 @@ class RegistrationForm(FlaskForm):
       return success
   
   class Meta:
-    csrf = False
+    csrf = True
    
 class EditForm(FlaskForm):
   username = StringField("Username", [validators.Length(min=2)])
   email = EmailField("Email", [validators.DataRequired("Please enter an e-mail address."), validators.Email("Please enter a valid e-mail address.")])
   role = SelectField("Access group:")
+  class Meta:
+    csrf = True
